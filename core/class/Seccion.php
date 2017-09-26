@@ -17,7 +17,7 @@ class Seccion{
     }
     
     public static function plantilla(){
-        views()->assign("nombrePlantilla",self::$data->nombrePlantilla);
+        views()->assign("nombrePlantilla",lcfirst(self::$data->nombrePlantilla));
     }
     
     public static function header(){
