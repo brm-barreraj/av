@@ -1,0 +1,19 @@
+{
+    "config": {
+        "vendor-dir": "core/vendor"
+    },
+    "require": {
+        "bramus/router": "~1.0",
+        "smarty/smarty": "^3.1",
+        "illuminate/database": "^5.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Controllers\\": "app/controllers/",
+            "ControllersAdmin\\": "admin/controllers/",
+            "Models\\": "models/",
+            "Core\\": "core/class/",
+            "Modules\\": "modules/loginMiAvantel/"
+        }
+    }
+}

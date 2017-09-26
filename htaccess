@@ -1,0 +1,23 @@
+Options +FollowSymLinks
+RewriteEngine on
+
+# App
+RewriteRule ^images/(.*) app/public/images/$1 [L]
+RewriteRule ^css/(.*) app/public/css/$1 [L]
+RewriteRule ^js/(.*) app/public/js/$1 [L]
+RewriteRule ^fonts/(.*) app/public/fonts/$1 [L]
+
+# Admin
+RewriteRule ^admin/images/(.*) admin/public/images/$1 [L]
+RewriteRule ^admin/css/(.*) admin/public/css/$1 [L]
+RewriteRule ^admin/js/(.*) admin/public/js/$1 [L]
+RewriteRule ^admin/fonts/(.*) admin/public/fonts/$1 [L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^(.*) index.php [L,NC,QSA]
+
+
+
+
