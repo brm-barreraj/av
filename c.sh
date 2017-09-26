@@ -5,6 +5,7 @@ tables=[]
 firstData=0
 replace=" "
 prex="av_"
+mkdir models
 while read -a row
 do
     if [ $firstData != 0 ]; then
