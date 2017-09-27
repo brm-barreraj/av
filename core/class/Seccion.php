@@ -6,11 +6,12 @@ use Models\ComponenteModel;
 use Modules;
 class Seccion{
     static public $data = null;
+    private $menu = null;
     
     public static function show(){
         self::plantilla();
+        self::menus();
         self::header();
-        self::menu();
         self::contenido();
         self::footer();
         views()->display("index.html");
@@ -21,14 +22,14 @@ class Seccion{
     }
     
     public static function header(){
-        
+        $menuHeader = array();
+        views()->assign("menuHeader",$menuHeader);
     }
     
-    public static function menu(){
+    public static function menus(){
         $idPlantilla = self::$data->idPlantilla;
-        $menu = MenuModel::where('idPlantilla',$idPlantilla)->where('tipo','C')->get();
-        $menu = (is_object($menu) && count($menu) > 0) ? (object) $menu->toArray() : array();
-        views()->assign("menu",$menu);
+        $this->menu = MenuModel::where('idPlantilla',$idPlantilla)->get();
+        $this->menu = (is_object($menu) && count($menu) > 0) ? (object) $menu->toArray() : array();
     }
     
     public static function contenido(){
@@ -41,10 +42,8 @@ class Seccion{
     }
     
     public static function footer(){
-        $idPlantilla = self::$data->idPlantilla;
-        $menu = MenuModel::where('idPlantilla',$idPlantilla)->where('tipo','P')->get();
-        $menu = (is_object($menu) && count($menu) > 0) ? (object) $menu->toArray() : array();
-        views()->assign("footer",$menu);
+        $menufooter = array();
+        views()->assign("menufooter",$menufooter);
     }
     
     public static function make($url){
