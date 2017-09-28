@@ -16,4 +16,3 @@ $smarty->compile_check = true;
 $smarty->left_delimiter = '{#';
 $smarty->right_delimiter = '#}';
 function views(){global $smarty;return $smarty;}
-?>

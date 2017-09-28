@@ -1,5 +1,5 @@
 <?php
-namespace Modules;
+namespace Modules\loginMiAvantel;
 use Core\Request as Request;
 
 class LoginMiAvantelModule{

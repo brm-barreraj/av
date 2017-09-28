@@ -3,10 +3,10 @@ namespace Core;
 use Models\SeccionModel;
 use Models\MenuModel;
 use Models\ComponenteModel;
-use Modules;
+//use Modules\loginMiAvantel as LoginMiAvantel;
 class Seccion{
     static public $data = null;
-    private $menu = null;
+    private static $menu = null;
     
     public static function show(){
         self::plantilla();
@@ -28,12 +28,12 @@ class Seccion{
     
     public static function menus(){
         $idPlantilla = self::$data->idPlantilla;
-        $this->menu = MenuModel::where('idPlantilla',$idPlantilla)->get();
-        $this->menu = (is_object($menu) && count($menu) > 0) ? (object) $menu->toArray() : array();
+        self::$menu = MenuModel::where('idPlantilla',$idPlantilla)->get();
+        self::$menu = (is_object(self::$menu) && count(self::$menu) > 0) ? (object) self::$menu->toArray() : array();
     }
     
     public static function contenido(){
-        Modules\LoginMiAvantelModule::index();
+        \Modules\loginMiAvantel\LoginMiAvantelModule::index();   
         $componentes = ComponenteModel::
             leftJoin('modulo', 'modulo.id', '=', 'componente.idModulo')
             ->get();
@@ -43,7 +43,7 @@ class Seccion{
     
     public static function footer(){
         $menufooter = array();
-        views()->assign("menufooter",$menufooter);
+        views()->assign("menuFooter",$menufooter);
     }
     
     public static function make($url){
