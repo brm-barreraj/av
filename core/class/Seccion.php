@@ -37,7 +37,8 @@ class Seccion{
     }
 
     public static function make($url){
-        $ruta = SeccionModel::where("ruta",$url)
+
+    	$ruta = SeccionModel::where("ruta",$url)
             ->first();
         self::$data = (is_object($ruta) && count($ruta) > 0) ? (object) $ruta->toArray() : false;
         self::$components = self::CallRaw('cursorOrden',[self::$data->id]); 
