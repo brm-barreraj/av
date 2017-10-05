@@ -11,12 +11,10 @@ class Seccion{
     public static $modules = null;
     public static $components = null;
 
-    public static function makeModules(){
-        self::modules(self::$components);
-    }
 
     public static function show(){
         views()->assign("data",self::$components);
+        
         views()->display("index.html");
     }
 
@@ -28,10 +26,12 @@ class Seccion{
                 }
             }
         });
+        // Guardar módulos
+        setcookie("9cnrjMgSKYJCwzjw", requestHash('encode', json_encode(self::$modules)), time()+3600);
+
         foreach (self::$modules as $module) {
             foreach ($module as $value) {
-                $class = "\Modules\\".$value->nombre."\\".$value->nombre."Module";
-                $class::index();   
+                call_user_func(array("\Modules\\".$value->nombre.'\\'.ucwords($value->nombre).'Module', 'index'));
             }
         }
     }
@@ -40,9 +40,11 @@ class Seccion{
         $ruta = SeccionModel::where("ruta",$url)
             ->first();
         self::$data = (is_object($ruta) && count($ruta) > 0) ? (object) $ruta->toArray() : false;
-        self::$components = self::CallRaw('cursorOrden',[1]);   
+        self::$components = self::CallRaw('cursorOrden',[self::$data->id]); 
+        self::modules(self::$components);
     }
 
+    //Llama procedimiento almacenado
     private static function CallRaw($procName, $parameters = null, $isExecute = false){
         $syntax = '';
         for ($i = 0; $i < count($parameters); $i++) {

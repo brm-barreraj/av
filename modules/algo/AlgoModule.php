@@ -5,7 +5,7 @@ use Core\Request as Request;
 class AlgoModule{
     // Ejemplo controller web
     function index(){
-        echo json_encode(array("asd"=>"asd"));
+        views()->assign("algo_titulo","Algo module");
     }
 
     function pruebaGet(){

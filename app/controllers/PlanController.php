@@ -14,7 +14,7 @@ class PlanController{
     function get(){
         $data = Request::url();
         $plan = $data[1];
-        printVar($plan);
+        Seccion::show();
         //printVar(Seccion::$data);
         
         //echo $id;

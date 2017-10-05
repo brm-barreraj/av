@@ -57,36 +57,24 @@ $router->mount('(.*)', function() use ($router) {
                 $object->$accion();
             }else{
                //Sección administrable
-                makeRoutes();
-                Seccion::makeModules();
                 Seccion::show();
-                printVar($router);
             }
         }
     });
-
-    function makeRoutes(){
-        global $router;
-        $router->mount('(.*)', function() use ($router) {
-            $router->mount('/module/loginMiAvantel', function() use ($router) {
-                include './modules/loginMiAvantel/routes.php';
-            });
-        });
-
-    }
     
-    /*$modules = Modulo::get()->toArray();
+    $modules = json_decode(requestHash('decode', $_COOKIE["9cnrjMgSKYJCwzjw"]));
 
     // Rutas de los módulos
-    if($modules){
-        foreach ($modules as $module) {
+    if($modules){   
+        foreach ($modules as $module) {            
             $router->mount('/module', function() use ($router, $module) {
-                $router->mount('/'.$module['nombre'], function() use ($router,$module) {
-                    include './modules/'.$module['nombre'].'/routes.php';
+                $router->mount('/'.$module[0]->nombre, function() use ($router,$module) {
+                    include './modules/'.$module[0]->nombre.'/routes.php';
                 });
             });   
         }
-    }*/
+        
+    }
         
 });    
     
