@@ -1,6 +1,8 @@
 #!/bin/bash
 
-user="julian10404"
+user="root"
+password="root"
+bd="avantel"
 tables=[]
 firstData=0
 replace=" "
@@ -28,4 +30,4 @@ do
     fi
     
     firstData=1
-done < <(echo "SHOW TABLES" | mysql -u $user avantel)
+done < <(echo "SHOW TABLES" | mysql -u$user -p$password $bd)

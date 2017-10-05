@@ -4,7 +4,6 @@ use Core\Request;
 use Core\Seccion;
 
 
-
 // Create Router instance
 $router = new \Bramus\Router\Router();
     

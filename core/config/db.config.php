@@ -5,10 +5,10 @@ $capsule = new Capsule;
 //Indicamos en el siguiente array los datos de configuración de la BD
 $capsule->addConnection([
  'driver' =>'mysql',
- 'host' => '127.0.0.1',
+ 'host' => 'localhost',
  'database' => 'avantel',
  'username' => 'root',
- 'password' => '',
+ 'password' => 'root',
  'charset' => 'utf8',
  'collation' => 'utf8_unicode_ci',
  'prefix' => 'av_',

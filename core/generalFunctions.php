@@ -38,8 +38,10 @@ function requestHash($action, $string) {
 }
 
 function printVar( $variable, $title = "" ){
-	$var = print_r( $variable, true );
-	echo "<pre style='background-color:#dddd00; border: dashed thin #000000;'><strong>[$title]</strong> $var</pre>";
+    echo "<fieldset>";
+    echo "<legend>$title</legend>";
+    highlight_string("<?php\n". var_export($variable, true) . ";\n?>");
+    echo "</fieldset>";
 }
 
 ?>
