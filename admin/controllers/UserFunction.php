@@ -6,7 +6,7 @@ use Core\Request as Request;
 use Core\Mail as Mail;
 use Illuminate\Database\QueryException as queryException;
 
-class UserController{
+class UserFunction{
 
     function __construct(argument){
         $request= Request::post();
@@ -17,7 +17,7 @@ class UserController{
 
     public static function forgetData(){
 
-       $dataUser=User::where("usuario", $request["user"])->orWhere("correo", $request["email"])->toArray();
+       $dataUser=User::where("usuario", $request["userOrEmail"])->orWhere("correo", $request["userOrEmail"])->toArray();
        if (is_empty($dataUser)) {
 
             $response["boolean"]=false;

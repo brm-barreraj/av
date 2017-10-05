@@ -1,7 +1,7 @@
 <?php
 namespace ControllersAdmin;
 
-class UserController{
+class UserShow{
 
     //Display pages
     function showLogin(){

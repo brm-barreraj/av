@@ -47,11 +47,11 @@ class Seccion{
     }
     
     public static function make($url){
-        $ruta = SeccionModel::
+        /*$ruta = SeccionModel::
             join('plantilla', 'plantilla.id', '=', 'seccion.idPlantilla')
             ->where("ruta",$url)
             ->first();
-        self::$data = (is_object($ruta) && count($ruta) > 0) ? (object) $ruta->toArray() : false;
+        self::$data = (is_object($ruta) && count($ruta) > 0) ? (object) $ruta->toArray() : false;*/
     }
 }
  ?>

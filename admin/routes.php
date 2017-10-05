@@ -10,17 +10,17 @@ $router->set404(function () {
 });
 
 // Define routes
-$router->match('GET', '/iniciar-sesion', 'ControllersAdmin\UserController@showLogin');
-$router->match('POST', 'login', 'ControllersAdmin\UserController@login');
+$router->match('GET', '/iniciar-sesion', 'ControllersAdmin\UserShow@showLogin');
+$router->match('POST', 'login', 'ControllersAdmin\UserFunction@login');
 
-$router->match('GET', '/registro', 'ControllersAdmin\UserController@showRegister');
-$router->match('POST', 'register', 'ControllersAdmin\UserController@register');
+$router->match('GET', '/registro', 'ControllersAdmin\UserShow@showRegister');
+$router->match('POST', 'register', 'ControllersAdmin\UserFunction@register');
 
-$router->match('GET', '/olvide-mis-datos', 'ControllersAdmin\UserController@showForgetData');
-$router->match('POST', 'forgetData', 'ControllersAdmin\UserController@forgetData');
+$router->match('GET', '/olvide-mis-datos', 'ControllersAdmin\UserShow@showForgetData');
+$router->match('POST', 'forgetData', 'ControllersAdmin\UserFunction@forgetData');
 
-$router->match('GET', '/editar-perfil', 'ControllersAdmin\UserController@showEditProfile');
-$router->match('POST', 'editProfile', 'ControllersAdmin\UserController@editProfile');
+$router->match('GET', '/editar-perfil', 'ControllersAdmin\UserShow@showEditProfile');
+$router->match('POST', 'editProfile', 'ControllersAdmin\UserFunction@editProfile');
 
 
 ?>
