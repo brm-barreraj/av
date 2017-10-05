@@ -1,4 +1,4 @@
-/*jQuery(document).ready(function(){
+jQuery(document).ready(function(){
 	jQuery.ajax({
 		method: "POST",
 		url: "module/loginMiAvantel/user",
@@ -16,15 +16,4 @@
 	.done(function( msg ) {
 		//alert( "Data Saved: " + msg );
 	});
-})*/
-
-var pruebaGet = function(){
-	jQuery.ajax({
-		method: "GET",
-		url: "module/loginMiAvantel/user",
-		data: { name: "John", location: "Boston" }
-	})
-	.done(function( msg ) {
-		//alert( "Data Saved: " + msg );
-	});
-}
+})

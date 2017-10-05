@@ -2,7 +2,7 @@
 
 use Core\Request;
 use Core\Seccion;
-
+use Models\ModuloModel as Modulo;
 
 // Create Router instance
 $router = new \Bramus\Router\Router();
@@ -39,15 +39,15 @@ $router->mount('(.*)', function() use ($router) {
     // Se guarda el arreglo de GET
     Request::setGet($_GET);
 
-    $router->match('GET','/',function($url){
+    $router->match('GET','/',function($url) use ($router){
+        $url = ($url=="")?"/":$url;
         Seccion::make($url);
         $seccion = Seccion::$data;
-        
+
         // Se guarda la url en array
         $urlArray = explode("/",$url);
         Request::setUrl($urlArray);
         
-        //Sección administrable
         if (isset(Seccion::$data) && Seccion::$data) {
             if (isset($seccion->controlador) && $seccion->controlador != "" && isset($seccion->accion) && $seccion->accion != "") {
                 $controlador = "Controllers\\".ucwords($seccion->controlador)."Controller";
@@ -55,24 +55,41 @@ $router->mount('(.*)', function() use ($router) {
                 $object = new $controlador();
                 $object->$accion();
             }else{
-                //Sección administrable
+               //Sección administrable
+                makeRoutes();
+                Seccion::makeModules();
                 Seccion::show();
+                printVar($router);
             }
         }
     });
-    // Rutas de los módulos
-    $router->mount('/module', function() use ($router) {
-        $nameModule = 'loginMiAvantel';
-        $router->mount('/'.$nameModule, function() use ($router,$nameModule) {
-            include './modules/'.$nameModule.'/routes.php';
+
+    function makeRoutes(){
+        global $router;
+        $router->mount('(.*)', function() use ($router) {
+            $router->mount('/module/loginMiAvantel', function() use ($router) {
+                include './modules/loginMiAvantel/routes.php';
+            });
         });
-    });
+
+    }
+    
+    /*$modules = Modulo::get()->toArray();
+
+    // Rutas de los módulos
+    if($modules){
+        foreach ($modules as $module) {
+            $router->mount('/module', function() use ($router, $module) {
+                $router->mount('/'.$module['nombre'], function() use ($router,$module) {
+                    include './modules/'.$module['nombre'].'/routes.php';
+                });
+            });   
+        }
+    }*/
         
 });    
     
-
 include './app/routes.php';
 
 // Run it!
 $router->run();
-?>
