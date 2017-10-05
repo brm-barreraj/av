@@ -11,9 +11,11 @@ $capsule->addConnection([
  'password' => '',
  'charset' => 'utf8',
  'collation' => 'utf8_unicode_ci',
- 'prefix' => 'av_',
+ 'prefix' => 'av_'
 ]);
  
+$capsule->setAsGlobal();
+
 //Y finalmente, iniciamos Eloquent
 $capsule->bootEloquent();
-?>
+

@@ -11,18 +11,26 @@
 	<!-- Quitar -->
 </head>
 <body>
-	{#include  file="$nombrePlantilla/header.html"#}
-	
-	{#foreach from=$componentes item=item #}
-		{#if $item.idModulo > 0#}
-			{#assign var="nombreModulo" value=$item.nombre#}
-			{#assign var="claseModulo" value=$nombreModulo|cat:'Module'#}
-			{#include  file="../../modules/$nombreModulo/index.html"#}
-		{#else#}
-			{#$item.contenido#}<br />
-		{#/if#}
+	{#foreach from=$data item=components #}
+		{#foreach key=key from=$components item=component #}
+			{#if $component->tipoComponente == 'menu'#}
+				{#if !$component->idPadre#}<ul>{#/if#}
+			    {#if $component->idPadre#}
+			    	<li>{#$component->texto#}</li>
+			    	{#if count($components)-1 == $key#}
+			    		</ul>
+			    	{#/if#}
+			    {#/if#}
+
+			{#elseif $component->tipoComponente == 'contenido'#}
+			    {#$component->contenido#}
+			{#else#}
+				{#assign var="nombreModulo" value=$component->nombre#}
+			    {#include  file="../../modules/$nombreModulo/index.html"#}
+			{#/if#}
+		{#/foreach#}	
 	{#/foreach#}
+
 	
-	{#include  file="$nombrePlantilla/footer.html"#}
 </body>
 </html>
