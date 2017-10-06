@@ -1,7 +1,7 @@
 jQuery(document).ready(function(){
 	jQuery.ajax({
 		method: "POST",
-		url: "module/loginMiAvantel/user",
+		url: "module/algo/user",
 		data: { name: "John", location: "Boston" }
 	})
 	.done(function( msg ) {
@@ -10,7 +10,7 @@ jQuery(document).ready(function(){
 
 	jQuery.ajax({
 		method: "GET",
-		url: "module/loginMiAvantel/user",
+		url: "module/algo/user",
 		data: { name: "John", location: "Boston" }
 	})
 	.done(function( msg ) {

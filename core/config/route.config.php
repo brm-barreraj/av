@@ -40,6 +40,7 @@ $router->mount('(.*)', function() use ($router) {
     Request::setGet($_GET);
 
     $router->match('GET','/',function($url) use ($router){
+
         $url = ($url=="")?"/":$url;
         Seccion::make($url);
         $seccion = Seccion::$data;

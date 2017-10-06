@@ -3,6 +3,8 @@ namespace Core;
 use Models\SeccionModel;
 use Models\MenuModel;
 use Models\ComponenteModel;
+use Models\ArchivoModel;
+
 use Illuminate\Database\Capsule\Manager as Capsule;
 
 class Seccion{
@@ -10,11 +12,11 @@ class Seccion{
     private static $menu = null;
     public static $modules = null;
     public static $components = null;
-
+    private static $archivesModules = null;
 
     public static function show(){
         views()->assign("data",self::$components);
-        
+        views()->assign("archivesModules",self::$archivesModules);
         views()->display("index.html");
     }
 
@@ -32,17 +34,32 @@ class Seccion{
         foreach (self::$modules as $module) {
             foreach ($module as $value) {
                 call_user_func(array("\Modules\\".$value->nombre.'\\'.ucwords($value->nombre).'Module', 'index'));
+                self::$archivesModules = ArchivoModel::orderBy('peso')
+                    ->join('Modulo', 'modulo.id', '=', 'Archivo.idModulo')
+                    ->select(
+                        'Modulo.nombre as nombreModulo',
+                        'Archivo.idModulo',
+                        'Archivo.id',
+                        'Archivo.peso',
+                        'Archivo.posicion',
+                        'Archivo.nombre as nombreArchivo',
+                        'tipoArchivo'
+                    )
+                    ->where("idModulo",$value->id)
+                    ->get()
+                    ->toArray();
             }
         }
     }
 
     public static function make($url){
-
     	$ruta = SeccionModel::where("ruta",$url)
             ->first();
         self::$data = (is_object($ruta) && count($ruta) > 0) ? (object) $ruta->toArray() : false;
-        self::$components = self::CallRaw('cursorOrden',[self::$data->id]); 
-        self::modules(self::$components);
+        if(self::$data){
+            self::$components = self::CallRaw('cursorOrden',[self::$data->id]);
+            self::modules(self::$components);
+        }
     }
 
     //Llama procedimiento almacenado

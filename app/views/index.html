@@ -7,7 +7,14 @@
 	<link rel="stylesheet" href="">
 	<!-- Quitar -->
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-	<script type="text/javascript" src="modules/loginMiAvantel/main.js"></script>
+	{#foreach from=$archivesModules item=archive#}
+		{#if $archive['posicion']=='C'#}
+			{#if $archive['tipoArchivo']=='js'#}
+				<script type="text/javascript" src="{#PATH_ROOT#}modules/{#$archive['nombreModulo']#}/{#$archive['nombreArchivo']#}.{#$archive['tipoArchivo']#}">
+				</script>
+			{#/if#}
+		{#/if#}	
+	{#/foreach#}
 	<!-- Quitar -->
 </head>
 <body>
@@ -31,6 +38,13 @@
 		{#/foreach#}	
 	{#/foreach#}
 
-	
+	{#foreach from=$archivesModules item=archive#}
+		{#if $archive['posicion']=='P'#}
+			{#if $archive['tipoArchivo']=='js'#}
+				<script type="text/javascript" src="{#PATH_ROOT#}modules/{#$archive['nombreModulo']#}/{#$archive['nombreArchivo']#}.{#$archive['tipoArchivo']#}">
+				</script>
+			{#/if#}
+		{#/if#}	
+	{#/foreach#}
 </body>
 </html>

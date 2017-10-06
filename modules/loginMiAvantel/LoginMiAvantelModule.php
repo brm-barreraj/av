@@ -4,7 +4,7 @@ use Core\Request as Request;
 
 class LoginMiAvantelModule{
     // Ejemplo controller web
-    function index(){
+    static function index(){
         views()->assign("lmam_titulo","Login Mi avantel");
     }
 

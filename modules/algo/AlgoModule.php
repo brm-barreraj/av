@@ -4,7 +4,7 @@ use Core\Request as Request;
 
 class AlgoModule{
     // Ejemplo controller web
-    function index(){
+    static function index(){
         views()->assign("algo_titulo","Algo module");
     }
 
