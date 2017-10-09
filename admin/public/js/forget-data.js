@@ -1,13 +1,17 @@
 $(document).ready(function(){
 
 	$("#forget-data").on( "click", function() {
+
 		$.ajax({
 			method: "POST",
 			url: "forgetData",
-			data: { userOrEmail: $("#user-or-email")}
+			dataType: "json",
+			data: { userOrEmail: $("#user-or-email").val()}
 		})
 		.done(function( msg ) {
-		});		
+			$("#message").html(msg.message);
+		});			
+	
 	});
 
 

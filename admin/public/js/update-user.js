@@ -1,12 +1,12 @@
 $(document).ready(function(){
 
-	$("#login").on( "click", function() {
+	$("#update-user").on( "click", function() {
 
 		$.ajax({
 			method: "POST",
-			url: "login",
+			url: "updateUser",
 			dataType: "json",
-			data: { userOrEmail: $("#user-or-email").val(),password: $("#password").val()}
+			data: { name: $("#name").val(),lastname: $("#lastname").val(),email: $("#email").val()}
 		})
 		.done(function( msg ) {
 			$("#message").html(msg.message);

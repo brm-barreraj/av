@@ -1,5 +1,6 @@
 <?php
 namespace ControllersAdmin;
+use Admin\UserFunction as User;
 
 class UserShow{
 
@@ -19,8 +20,8 @@ class UserShow{
 
     }
 
-    function showEditProfile(){
-        views()->display('admin/edit-profile.html');
+    function showUpdateUser(){
+        views()->display('admin/update-user.html');
 
     }
     

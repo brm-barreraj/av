@@ -1,0 +1,2 @@
+function sendata(url,data) {
+}

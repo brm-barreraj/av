@@ -19,8 +19,8 @@ $router->match('POST', 'register', 'ControllersAdmin\UserFunction@register');
 $router->match('GET', '/olvide-mis-datos', 'ControllersAdmin\UserShow@showForgetData');
 $router->match('POST', 'forgetData', 'ControllersAdmin\UserFunction@forgetData');
 
-$router->match('GET', '/editar-perfil', 'ControllersAdmin\UserShow@showEditProfile');
-$router->match('POST', 'editProfile', 'ControllersAdmin\UserFunction@editProfile');
+$router->match('GET', '/editar-usuario', 'ControllersAdmin\UserShow@showUpdateUser');
+$router->match('POST', 'updateUser', 'ControllersAdmin\UserFunction@updateUser');
 
 
 ?>
