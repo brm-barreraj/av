@@ -24,6 +24,5 @@ class UserShow{
         views()->display('admin/update-user.html');
 
     }
-    
 }
 ?>
