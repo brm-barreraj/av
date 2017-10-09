@@ -13,41 +13,70 @@ class Seccion{
     public static $modules = null;
     public static $components = null;
     private static $archivesModules = null;
+    private static $archivesSeccion = null;
 
     public static function show(){
         views()->assign("data",self::$components);
         views()->assign("archivesModules",self::$archivesModules);
+        views()->assign("archivesSeccion",self::$archivesModules);
         views()->display("index.html");
     }
 
     private static function modules($results){
-        self::$modules = array_filter($results, function($components){
-            foreach ($components as $component) {
-                if($component->tipoComponente == 'modulo'){
-                    return $component;
+        self::$modules = array_filter($results, function($components) use ($results){
+            if(count($results)>1){
+                foreach ($components as $component) {
+                    if($component->tipoComponente == 'modulo'){
+                        return $component;
+                    }
+                }
+            }else if(count($results)==1){
+                if($components->tipoComponente == 'modulo'){
+                    return $components;
                 }
             }
         });
         // Guardar módulos
         setcookie("9cnrjMgSKYJCwzjw", requestHash('encode', json_encode(self::$modules)), time()+3600);
 
+
         foreach (self::$modules as $module) {
-            foreach ($module as $value) {
-                call_user_func(array("\Modules\\".$value->nombre.'\\'.ucwords($value->nombre).'Module', 'index'));
-                self::$archivesModules = ArchivoModel::orderBy('peso')
-                    ->join('Modulo', 'modulo.id', '=', 'Archivo.idModulo')
-                    ->select(
-                        'Modulo.nombre as nombreModulo',
-                        'Archivo.idModulo',
-                        'Archivo.id',
-                        'Archivo.peso',
-                        'Archivo.posicion',
-                        'Archivo.nombre as nombreArchivo',
-                        'tipoArchivo'
-                    )
-                    ->where("idModulo",$value->id)
-                    ->get()
-                    ->toArray();
+            if(count($results)>1){
+                foreach ($module as $value) {
+                    call_user_func(array("\Modules\\".$value->nombre.'\\'.ucwords($value->nombre).'Module', 'index'));
+                    self::$archivesModules = ArchivoModel::orderBy('peso')
+                        ->join('Modulo', 'modulo.id', '=', 'Archivo.idModulo')
+                        ->select(
+                            'Modulo.nombre as nombreModulo',
+                            'Archivo.idModulo',
+                            'Archivo.id',
+                            'Archivo.peso',
+                            'Archivo.posicion',
+                            'Archivo.nombre as nombreArchivo',
+                            'tipoArchivo'
+                        )
+                        ->where("idModulo",$value->id)
+                        ->get()
+                        ->toArray();
+
+                }
+            }else if(count($results)==1){
+                call_user_func(array("\Modules\\".$module->nombre.'\\'.ucwords($module->nombre).'Module', 'index'));
+                    self::$archivesModules = ArchivoModel::orderBy('peso')
+                        ->join('Modulo', 'modulo.id', '=', 'Archivo.idModulo')
+                        ->select(
+                            'Modulo.nombre as nombreModulo',
+                            'Archivo.idModulo',
+                            'Archivo.id',
+                            'Archivo.peso',
+                            'Archivo.posicion',
+                            'Archivo.nombre as nombreArchivo',
+                            'tipoArchivo'
+                        )
+                        ->where("idModulo",$module->id)
+                        ->get()
+                        ->toArray();
+
             }
         }
     }
@@ -56,9 +85,23 @@ class Seccion{
     	$ruta = SeccionModel::where("ruta",$url)
             ->first();
         self::$data = (is_object($ruta) && count($ruta) > 0) ? (object) $ruta->toArray() : false;
+
         if(self::$data){
             self::$components = self::CallRaw('cursorOrden',[self::$data->id]);
             self::modules(self::$components);
+            self::$archivesSeccion = ArchivoModel::orderBy('peso')
+                ->join('Seccion', 'seccion.id', '=', 'Archivo.idSeccion')
+                ->select(
+                    'Archivo.idSeccion',
+                    'Archivo.id',
+                    'Archivo.peso',
+                    'Archivo.posicion',
+                    'Archivo.nombre as nombreArchivo',
+                    'tipoArchivo'
+                )
+                ->where("idSeccion",self::$data->id)
+                ->get()
+                ->toArray();
         }
     }
 

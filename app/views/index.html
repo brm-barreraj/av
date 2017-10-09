@@ -7,6 +7,16 @@
 	<link rel="stylesheet" href="">
 	<!-- Quitar -->
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	{#foreach from=$archivesSeccion item=archive#}
+		{#if $archive['posicion']=='C'#}
+			{#if $archive['tipoArchivo']=='js'#}
+				<script type="text/javascript" src="{#PATH_ROOT#}js/{#$archive['nombreArchivo']#}.{#$archive['tipoArchivo']#}">
+				</script>
+			{#elseif $archive['tipoArchivo']=='css'#}
+				<link rel="stylesheet" type="text/css" href="{#PATH_ROOT#}/css/{#$archive['nombreArchivo']#}.{#$archive['tipoArchivo']#}">
+			{#/if#}
+		{#/if#}	
+	{#/foreach#}
 	{#foreach from=$archivesModules item=archive#}
 		{#if $archive['posicion']=='C'#}
 			{#if $archive['tipoArchivo']=='js'#}
@@ -19,23 +29,51 @@
 </head>
 <body>
 	{#foreach from=$data item=components #}
-		{#foreach key=key from=$components item=component #}
-			{#if $component->tipoComponente == 'menu'#}
-				{#if !$component->idPadre#}<ul>{#/if#}
-			    {#if $component->idPadre#}
-			    	<li>{#$component->texto#}</li>
-			    	{#if count($components)-1 == $key#}
+		{#if $data|@count > 1#}
+			{#foreach key=key from=$components item=component #}
+				{#if $component->tipoComponente == 'menu'#}
+					{#if !$component->idPadre#}<ul>{#/if#}
+				    {#if $component->idPadre#}
+				    	<li>{#$component->texto#}</li>
+				    	{#if count($components)-1 == $key#}
+				    		</ul>
+				    	{#/if#}
+				    {#/if#}
+				{#elseif $component->tipoComponente == 'contenido'#}
+					{#if $component->tipoContenido == 'contenido' #}
+				    	{#$component->contenido#}
+			    	{#elseif $component->tipoContenido == 'multimedia'#}	
+			    		{#if $component->tipo == 'jpg' #}
+						  <img src="{#PATH_ROOT#}/images/{#$component->nombreArchivo#}.{#$component->tipo#}">			    		
+					    {#/if#}
+				    {#/if#}			   
+				{#else#}
+					{#assign var="nombreModulo" value=$component->nombre#}
+				    {#include  file="../../modules/$nombreModulo/index.html"#}
+				{#/if#}
+			{#/foreach#}
+		{#else#}
+			{#if $components->tipoComponente == 'menu'#}
+				{#if !$components->idPadre#}<ul>{#/if#}
+			    {#if $components->idPadre#}
+			    	<li>{#$components->texto#}</li>
+			    	{#if count($componentss)-1 == $key#}
 			    		</ul>
 			    	{#/if#}
 			    {#/if#}
-
-			{#elseif $component->tipoComponente == 'contenido'#}
-			    {#$component->contenido#}
+			{#elseif $components->tipoComponente == 'contenido'#}
+				{#if $components->tipoContenido == 'contenido' #}
+			    	{#$components->contenido#}
+		    	{#elseif $components->tipoContenido == 'multimedia'#}	
+		    		{#if $components->tipo == 'jpg' #}
+					  <img src="{#PATH_ROOT#}/images/{#$components->nombreArchivo#}.{#$components->tipo#}">			    		
+				    {#/if#}
+			    {#/if#}			   
 			{#else#}
-				{#assign var="nombreModulo" value=$component->nombre#}
+				{#assign var="nombreModulo" value=$components->nombre#}
 			    {#include  file="../../modules/$nombreModulo/index.html"#}
 			{#/if#}
-		{#/foreach#}	
+		{#/if#}	
 	{#/foreach#}
 
 	{#foreach from=$archivesModules item=archive#}
@@ -43,6 +81,16 @@
 			{#if $archive['tipoArchivo']=='js'#}
 				<script type="text/javascript" src="{#PATH_ROOT#}modules/{#$archive['nombreModulo']#}/{#$archive['nombreArchivo']#}.{#$archive['tipoArchivo']#}">
 				</script>
+			{#/if#}
+		{#/if#}	
+	{#/foreach#}
+	{#foreach from=$archivesSeccion item=archive#}
+		{#if $archive['posicion']=='P'#}
+			{#if $archive['tipoArchivo']=='js'#}
+				<script type="text/javascript" src="{#PATH_ROOT#}js/{#$archive['nombreArchivo']#}.{#$archive['tipoArchivo']#}">
+				</script>
+			{#elseif $archive['tipoArchivo']=='css'#}
+				<link rel="stylesheet" type="text/css" href="{#PATH_ROOT#}/css/{#$archive['nombreArchivo']#}.{#$archive['tipoArchivo']#}">
 			{#/if#}
 		{#/if#}	
 	{#/foreach#}

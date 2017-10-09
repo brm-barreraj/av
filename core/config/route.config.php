@@ -61,19 +61,28 @@ $router->mount('(.*)', function() use ($router) {
             }
         }
     });
-    
-    $modules = json_decode(requestHash('decode', $_COOKIE["9cnrjMgSKYJCwzjw"]));
 
-    // Rutas de los módulos
-    if($modules){   
-        foreach ($modules as $module) {            
-            $router->mount('/module', function() use ($router, $module) {
-                $router->mount('/'.$module[0]->nombre, function() use ($router,$module) {
-                    include './modules/'.$module[0]->nombre.'/routes.php';
-                });
-            });   
+    if(isset($_COOKIE["9cnrjMgSKYJCwzjw"])){
+        $modules = json_decode(requestHash('decode', $_COOKIE["9cnrjMgSKYJCwzjw"]));
+
+        // Rutas de los módulos
+        if($modules){   
+            foreach ($modules as $module) { 
+                if(is_array($module)){
+                    $router->mount('/module', function() use ($router, $module) {
+                        $router->mount('/'.$module[0]->nombre, function() use ($router,$module) {
+                            include './modules/'.$module[0]->nombre.'/routes.php';
+                        });
+                    });   
+                }else{                    
+                    $router->mount('/module', function() use ($router, $module) {
+                        $router->mount('/'.$module->nombre, function() use ($router,$module) {
+                            include './modules/'.$module->nombre.'/routes.php';
+                        });
+                    }); 
+                }
+            }            
         }
-        
     }
         
 });    
