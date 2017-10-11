@@ -3,7 +3,6 @@ namespace ControllersAdmin;
 
 use Models\adminusuarioModel as User;
 use Core\Request as Request;
-use Core\Mail as Mail;
 use Illuminate\Database\QueryException as queryException;
 
 class UserFunction{
@@ -14,61 +13,63 @@ class UserFunction{
         self::$request=Request::post();
         self::$response["boolean"]=false;
         self::$response["message"]='Intentalo de nuevo';        
+        self::$response["catch"]='';        
     }
 
-    public static function forgetData(){
+    //función para crear un usuario
+    public static function createUser(){
 
-        //Envía un correo con los datos de recuperación si el usuario o correo por post existe
-        if ( self::equalField("usuario",self::$request["userOrEmail"]) || self::equalField("correo",self::$request["userOrEmail"]) ) {
-
-            $password=self::generatePassword(10);
-            $user=User::where("usuario", self::$request["userOrEmail"] )->orWhere("correo", self::$request["userOrEmail"] )->first();
-            $user=empty($user) ? $user : $user->toArray();
-            
-            if( User::where('id',$user["id"])->update(['contrasena' => sha1($password)]) && self::sendMailFogertData($user,$password) ){
-                $response["boolean"]=true;
-                $response["message"]='Te hemos enviado un correo con los datos de tu cuenta';
-                echo json_encode($response);
-            }else{
-                echo json_encode($response);
-            }
-
-        //No existen el usuario o correo ingresado por el usuario
+        if (self::fieldExists("usuario",self::$request["user"])) {
+            self::$response["message"]='El usuario ya existe';
+        }else if(self::fieldExists("correo",self::$request["email"])) {
+            self::$response["message"]='El correo ya existe';
         }else{
-            $response["message"]='No coinciden estos datos, dejanos tu numero de celular y te contactamos';
-            echo json_encode($response);
+
+            try{
+
+                $user = new User;
+                $user->idPerfil=self::$request["profile"];
+                $user->estado=self::$request["state"];
+                $user->usuario =self::$request["user"];
+                $user->correo =self::$request["email"];
+                $user->nombre =self::$request["name"];
+                $user->apellido =self::$request["lastname"];
+                $user->contrasena = sha1(self::$request["password"]);
+                $user->save();
+
+                self::$response["boolean"]=true;
+                self::$response["message"]='Registro exitoso';
+
+            }catch (queryException $e){ self::$response["catch"]=$e; }
+
         }
+        echo json_encode(self::$response);
+
     }
 
-    public static function login(){
-        
-       $user=User::where("usuario", self::$request["userOrEmail"] )->orWhere("correo", self::$request["userOrEmail"] )->first();
-       $user=empty($user) ? $user : $user->toArray();
+    //función para eliminar un usuario
+    public static function deleteUser(){
 
-        //Retorna una repuesta negativa si no existe el usuario o correo
-        if ( !self::equalField("usuario",self::$request["userOrEmail"]) && !self::equalField("correo",self::$request["userOrEmail"]) ) {
-            $response["message"]='El usuario o correo no existe';
-            echo json_encode($response);
-        //Retorna una repuesta negativa si la contraseña no es correcta
-        }else if( $user['contrasena']!=sha1(self::$request["password"]) ) {
-            $response["message"]='La contraseña no coincide';
-            echo json_encode($response);
+        try{
 
-        //Autoiza el ingreso del usuario
-        }else{
-            $response["boolean"]=true;
-            $response["message"]='Datos correctos';
-            echo json_encode($response);
-        }
+            $user = User::find(self::$request["id"]);
+            $user->estado="I";
+            $user->save();
+
+            self::$response["boolean"]=true;
+            self::$response["message"]='Los datos fueron actulizados';
+
+        }catch (queryException $e){ self::$response["catch"]=$e; }
+
+        echo json_encode(self::$response);
 
     }
-    
+
     //función para editar un usuario
     public static function updateUser(){
 
-        if(self::equalField("correo",self::$request["email"])) {
-            $response["message"]='El correo ya existe';
-            echo json_encode($response);
+        if(self::fieldExists("correo",self::$request["email"])) {
+            self::$response["message"]='El correo ya existe';
         }else{
 
             try{
@@ -81,74 +82,44 @@ class UserFunction{
                 $user->apellido =self::$request["lastname"];
                 $user->save();
 
-                $response["boolean"]=true;
-                $response["message"]='Los datos fueron actulizados';
-                echo json_encode($response);
-                return $response;
+                self::$response["boolean"]=true;
+                self::$response["message"]='Los datos fueron actulizados';
 
-            }catch (queryException $e){ echo json_encode($response); }
+            }catch (queryException $e){ self::$response["catch"]=$e; }
 
         }
+        echo json_encode(self::$response);
 
     }
 
-
-    public static function createUser(){
-
-        $equalUser=self::equalField("usuario",$data["user"]);
-        $equalEmail=self::equalField("correo",$data["email"]);
-
-        if ($equalUser) {
-            $response["message"]='El usuario ya existe';
-            echo json_encode($response);
-        }else if($equalEmail) {
-            $response["message"]='El correo ya existe';
-            echo json_encode($response);
-        }else{
-
-            try{
-
-                $user = User::firstOrNew(array('id' => $data["idUser"]));;
-                $user->idPerfil=2;
-                $user->estado="A";
-                $user->usuario =$data["user"];
-                $user->correo =$data["email"];
-                $user->nombre =$data["name"];
-                $user->apellido =$data["lastname"];
-                $user->contrasena = sha1($data["password"]);
-                $user->save();
-
-                $response["boolean"]=true;
-                $response["message"]='Registro exitoso';
-                echo json_encode($response);
-                return $response;
-
-            }catch (queryException $e){ echo json_encode($response); }
-
-        }
-
+    //Retorna todos los usuarios
+    public static function get(){
+        $users = 
+            User::join('admin_perfil', 'admin_usuario.idPerfil', '=', 'admin_perfil.id')
+            ->select('admin_usuario.*', 'admin_perfil.nombre as perfil')
+            ->get();
+        $users=empty($users) ? $users : $users->toArray();
+        return $users;   
     }
 
-    //Configuración del el email apra recordar los datos y luego en la clas Mail se envía
-    private static function sendMailFogertData($user,$password){
-        $to=$user["correo"];
-        $subject="Datos de cuenta avantel";
-        $from="contacto@brm.com.co";
-        $template="forget-data-email";
-        $data["email"]=$user["correo"];
-        $data["user"]=$user["usuario"];
-        $data["password"]=$password;
-        return Mail::sendMail($to,$subject,$from,$template,$data);
+
+    //Retorna un campo o un registro completo, según un campo que tenga atributo unique en la base de datos
+    public static function getByUnique($field,$unique){
+        $user=User::where($field,$unique)->first();
+        $user=empty($user) ? $user : $user->toArray();
+        return $user;   
     }
 
-    //Retorna una contraseña tan larga como al deseé
-    private static function generatePassword($chars){
-        $data = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcefghijklmnopqrstuvwxyz*!$%&=?¿^*_-.;><';
-        return substr(str_shuffle($data), 0, $chars);
+    //Retorna un registro de la base de datos según el usuario o el correo
+    public static function getByUserOrEmail($value){
+        $user=User::where("usuario", $value )->orWhere("correo",$value)->first();
+        $user=empty($user) ? $user : $user->toArray();
+        return $user;   
     }
+
 
     //Retorna una repuesta positiva si existe el campo
-    private static function equalField($field,$value){
+    public static function fieldExists($field,$value){
         return (empty(User::where($field, $value)->pluck($field)->toArray())) ? false:true;
     }
 }

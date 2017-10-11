@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es" xml:lang="es" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title></title>
+
+</head>
+<body>
+	<table>
+		<caption>Usuarios</caption>
+		<thead>
+			<tr> 
+				<th>Usuario</th>
+				<th>Nombre</th>
+				<th>Apellido</th>
+				<th>Correo</th>
+				<th>Perfil</th>
+				<th>Estado</th> 
+				<th>Acción</th> 
+			</tr>
+		</thead>
+		<tbody>
+			{#foreach from=$users item=user #}
+				<tr>
+					<td>{#$user.usuario #}</td>
+					<td>{#$user.nombre #}</td>
+					<td>{#$user.apellido #}</td>
+					<td>{#$user.correo #}</td>
+					<td>{#$user.perfil #}</td>
+					<td>{#$user.estado #}</td>
+					<td>
+						<button data-user="{#$user.usuario #}" class="update-user">Editar</button>
+						<button data-id="{#$user.id #}" class="delete-user">Eliminar</button>
+					</td>
+				</tr>
+			{#/foreach #}
+		</tbody>
+	</table>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="js/functions.js"></script>
+	<script type="text/javascript" src="js/users.js"></script>
+</body>
+</html>
