@@ -11,16 +11,22 @@ $router->set404(function () {
 
 // Define routes
 $router->match('GET', '/iniciar-sesion', 'ControllersAdmin\UserShow@showLogin');
-$router->match('POST', 'login', 'ControllersAdmin\UserFunction@login');
+$router->match('POST', 'log-in', 'ControllersAdmin\Sesion@login');
 
-$router->match('GET', '/registro', 'ControllersAdmin\UserShow@showRegister');
-$router->match('POST', 'register', 'ControllersAdmin\UserFunction@register');
+$router->match('GET', '/crear-usuario', 'ControllersAdmin\UserShow@showCreateUser');
+$router->match('POST', 'create-user', 'ControllersAdmin\UserFunction@createUser');
 
 $router->match('GET', '/olvide-mis-datos', 'ControllersAdmin\UserShow@showForgetData');
-$router->match('POST', 'forgetData', 'ControllersAdmin\UserFunction@forgetData');
+$router->match('POST', 'forget-data', 'ControllersAdmin\UserFunction@forgetData');
 
 $router->match('GET', '/editar-usuario', 'ControllersAdmin\UserShow@showUpdateUser');
-$router->match('POST', 'updateUser', 'ControllersAdmin\UserFunction@updateUser');
+$router->match('POST', 'update-user', 'ControllersAdmin\UserFunction@updateUser');
+
+$router->match('GET', '/usuarios', 'ControllersAdmin\UserShow@showUsers');
+
+$router->match('POST', 'create-temporary-data', 'ControllersAdmin\Sesion@createTemporaryData');
+
+$router->match('POST', 'delete-user', 'ControllersAdmin\UserFunction@deleteUser');
 
 
 ?>

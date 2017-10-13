@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+</head>
+<body>
+	<form id="create-user" method="post" accept-charset="utf-8">
+		<input type="text" name="user" id="user" placeholder="Digite el usuario">
+		<input type="text" name="email" id="email" placeholder="Digite el correo">
+		<input type="text" name="name" id="name" placeholder="Digite el nombre">
+		<input type="text" name="lastname" id="lastname" placeholder="Digite el apellido">
+		<input type="password" name="password" id="password" placeholder="Digite las contraseña">
+		<select name="profile" id="profile">
+			{#foreach from=$profiles item=profile #}
+			  <option value="{#$profile.id #}">{#$profile.nombre #}</option>
+			{#/foreach #}
+		</select>
+		<select id="state" name="state">
+			  <option value="A">Activo</option>
+			  <option value="I">Inactivo</option>
+		</select>
+		<button type="button">Crear usuario</button>
+	</form>
+	<div id="message"></div>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="js/functions.js"></script>
+	<script type="text/javascript" src="js/create-user.js"></script>
+	</body>
+</html>

@@ -1,18 +1,7 @@
 $(document).ready(function(){
 
-	$("#forget-data").on( "click", function() {
-
-		$.ajax({
-			method: "POST",
-			url: "forgetData",
-			dataType: "json",
-			data: { userOrEmail: $("#user-or-email").val()}
-		})
-		.done(function( msg ) {
-			$("#message").html(msg.message);
-		});			
-	
+	$("#forget-data button").on( "click", function() {
+		sendform("forget-data");
 	});
-
 
 })

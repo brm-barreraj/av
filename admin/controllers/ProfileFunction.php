@@ -2,7 +2,6 @@
 namespace ControllersAdmin;
 
 use Models\adminperfilModel as Profile;
-use Illuminate\Database\QueryException as queryException;
 
 class ProfileFunction{
 
@@ -10,8 +9,7 @@ class ProfileFunction{
     }
 
     public static function get(){
-
-        return Profile::get()->toArray();
+        return Profile::where("estado","A")->get()->toArray();
     }
 
 }
