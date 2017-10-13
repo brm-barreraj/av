@@ -17,7 +17,7 @@ class PlanController{
         Seccion::show();
         //printVar(Seccion::$data);
         
-        //echo $id;
+        // /echo $plan;
         echo"get Plan";
     }
 }

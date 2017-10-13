@@ -15,7 +15,7 @@ class Seccion{
     private static $archivesModules = null;
     private static $archivesSeccion = null;
 
-    public static function show(){
+    public static function show(){        
         views()->assign("data",self::$components);
         views()->assign("archivesModules",self::$archivesModules);
         views()->assign("archivesSeccion",self::$archivesModules);

@@ -5,7 +5,6 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title></title>
 	<link rel="stylesheet" href="">
-	<!-- Quitar -->
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 	{#foreach from=$archivesSeccion item=archive#}
 		{#if $archive['posicion']=='C'#}
@@ -25,33 +24,34 @@
 			{#/if#}
 		{#/if#}	
 	{#/foreach#}
-	<!-- Quitar -->
-</head>
+</head>	
 <body>
 	{#foreach from=$data item=components #}
 		{#if $data|@count > 1#}
-			{#foreach key=key from=$components item=component #}
-				{#if $component->tipoComponente == 'menu'#}
-					{#if !$component->idPadre#}<ul>{#/if#}
-				    {#if $component->idPadre#}
-				    	<li>{#$component->texto#}</li>
-				    	{#if count($components)-1 == $key#}
-				    		</ul>
-				    	{#/if#}
-				    {#/if#}
-				{#elseif $component->tipoComponente == 'contenido'#}
-					{#if $component->tipoContenido == 'contenido' #}
-				    	{#$component->contenido#}
-			    	{#elseif $component->tipoContenido == 'multimedia'#}	
-			    		{#if $component->tipo == 'jpg' #}
-						  <img src="{#PATH_ROOT#}/images/{#$component->nombreArchivo#}.{#$component->tipo#}">			    		
+			<div class="{#$components[0]->tipoComponente#}">
+				{#foreach key=key from=$components item=component #}
+					{#if $component->tipoComponente == 'menu'#}
+						{#if !$component->idPadre#}<ul>{#/if#}
+					    {#if $component->idPadre#}
+					    	<li>{#$component->texto#}</li>
+					    	{#if count($components)-1 == $key#}
+					    		</ul>
+					    	{#/if#}
 					    {#/if#}
-				    {#/if#}			   
-				{#else#}
-					{#assign var="nombreModulo" value=$component->nombre#}
-				    {#include  file="../../modules/$nombreModulo/index.html"#}
-				{#/if#}
-			{#/foreach#}
+					{#elseif $component->tipoComponente == 'contenido'#}
+						{#if $component->tipoContenido == 'contenido' #}
+					    	{#$component->contenido#}
+				    	{#elseif $component->tipoContenido == 'multimedia'#}	
+				    		{#if $component->tipo == 'jpg' #}
+							  <img src="{#PATH_ROOT#}/images/{#$component->nombreArchivo#}.{#$component->tipo#}">			    		
+						    {#/if#}
+					    {#/if#}			   
+					{#else#}
+						{#assign var="nombreModulo" value=$component->nombre#}
+					    {#include  file="../../modules/$nombreModulo/index.html"#}
+					{#/if#}
+				{#/foreach#}			
+			</div>
 		{#else#}
 			{#if $components->tipoComponente == 'menu'#}
 				{#if !$components->idPadre#}<ul>{#/if#}
