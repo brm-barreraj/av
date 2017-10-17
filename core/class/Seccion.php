@@ -15,7 +15,7 @@ class Seccion{
     private static $archivesModules = null;
     private static $archivesSeccion = null;
 
-    public static function show(){        
+    public static function show(){      
         views()->assign("data",self::$components);
         views()->assign("archivesModules",self::$archivesModules);
         views()->assign("archivesSeccion",self::$archivesModules);
@@ -60,7 +60,7 @@ class Seccion{
                         ->toArray();
 
                 }
-            }else if(count($results)==1){
+            }else if(count($results)==1){                        
                 call_user_func(array("\Modules\\".$module->nombre.'\\'.ucwords($module->nombre).'Module', 'index'));
                     self::$archivesModules = ArchivoModel::orderBy('peso')
                         ->join('Modulo', 'modulo.id', '=', 'Archivo.idModulo')
