@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es" xml:lang="es" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title></title>
+
+</head>
+<body>
+	<table>
+		<caption>Archivos</caption>
+		<thead>
+			<tr>
+				<th>:)</th>
+				<th>Nombre archivo</th>
+				<th>Subtítulo</th>
+				<th>Descripción</th>
+				<th>Texto Alternativo</th>
+				<th>Tipo</th>
+				<th>Acción</th>
+			</tr>
+		</thead>
+		<tbody>
+			{#foreach from=$files item=file #}
+				<tr>
+					<td>
+						{#if $file.tipo=="jpeg" || $file.tipo=="jpg" || $file.tipo=="png" || $file.tipo=="gif"#}
+							<img height="80" src="/av/admin/controllers/_data/{#$file.nombreArchivo #}" alt="{#$file.textoAlternativo #}">
+						{#else if $file.tipo=="mp4"#}
+							<object width="150" height="80" data="/controllers/_data/{#$file.nombreArchivo #}"></object>
+						{#/if#}
+					</td>
+					<td>{#$file.nombreArchivo #}</td>
+					<td>{#$file.subtitulo #}</td>
+					<td>{#$file.descripcion #}</td>
+					<td>{#$file.textoAlternativo #}</td>
+					<td>{#$file.tipo #}</td>
+					<td>
+						<button data-id="{#$file.id #}" class="update-file">Editar</button>
+						<button data-name="{#$file.nombreArchivo #}" class="delete-file">Eliminar</button>
+					</td>
+				</tr>
+			{#/foreach #}
+		</tbody>
+	</table>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="js/functions.js"></script>
+	<script type="text/javascript" src="js/files.js"></script>
+</body>
+</html>

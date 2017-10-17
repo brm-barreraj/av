@@ -1,7 +1,7 @@
 <?php
 namespace ControllersAdmin;
 
-use ControllersAdmin\UserFunction as User;
+use ControllersAdmin\User as User;
 use Core\Request as Request;
 use Core\Mail as Mail;
 

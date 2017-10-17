@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+</head>
+<body>
+	<form id="update-file" method="post" accept-charset="utf-8">
+		<input type="hidden" name="id" id="id" value="{#$file['id'] #}">
+		<input type="text" name="subtitle" id="subtitle" placeholder="Digite el subtítulo" value="{#$file['subtitulo'] #}">
+		<input type="text" name="description" id="description" placeholder="Digite la descripción" value="{#$file['descripcion'] #}">
+		<input type="text" name="alternativetext" id="alternativetext" placeholder="Digite el texto altenativo" value="{#$file['textoAlternativo'] #}">
+		<select id="alignment" name="alignment">
+			  <option value="I">Izquierda</option>
+			  <option value="D">Derecha</option>
+			  <option value="C">Centrado</option>
+		</select>
+		<button type="button">Ediatr archivo</button>
+	</form>
+	<div id="message"></div>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="js/functions.js"></script>
+	<script type="text/javascript" src="js/update-file.js"></script>	
+</body>
+</html>

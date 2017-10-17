@@ -3,7 +3,7 @@ namespace ControllersAdmin;
 
 use Models\adminperfilModel as Profile;
 
-class ProfileFunction{
+class Profile{
 
     function __construct(){
     }
