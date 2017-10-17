@@ -83,6 +83,7 @@ class Seccion{
 
     public static function make($url){
     	$ruta = SeccionModel::where("ruta",$url)
+            ->where("estado",'A')
             ->first();
         self::$data = (is_object($ruta) && count($ruta) > 0) ? (object) $ruta->toArray() : false;
 

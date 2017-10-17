@@ -71,13 +71,15 @@ $router->mount('(.*)', function() use ($router) {
                 if(is_array($module)){
                     $router->mount('/module', function() use ($router, $module) {
                         $router->mount('/'.$module[0]->nombre, function() use ($router,$module) {
-                            include './modules/'.$module[0]->nombre.'/routes.php';
+                            if(is_dir('./modules/'.$module[0]->nombre.'/routes.php'))
+                                include './modules/'.$module[0]->nombre.'/routes.php';
                         });
                     });   
                 }else{                    
                     $router->mount('/module', function() use ($router, $module) {
                         $router->mount('/'.$module->nombre, function() use ($router,$module) {
-                            include './modules/'.$module->nombre.'/routes.php';
+                            if(is_dir('./modules/'.$module->nombre.'/routes.php'))
+                                include './modules/'.$module->nombre.'/routes.php';
                         });
                     }); 
                 }

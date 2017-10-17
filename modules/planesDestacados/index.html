@@ -1,0 +1,10 @@
+<ul>
+	{#foreach from=$destacados item=destacado#}
+		<li>
+			<p>{#$destacado['nombre']#}</span>
+			<p><b>Datos: </b>{#$destacado['datos']#}</p>
+			<p><b>Voz: </b>{#$destacado['voz']#}</p>
+			<a href="{#$destacado['ruta']#}">Link al plan</a>
+		</li>
+	{#/foreach#}
+</ul>
