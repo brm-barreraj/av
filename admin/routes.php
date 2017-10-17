@@ -9,24 +9,36 @@ $router->set404(function () {
     echo '404, route not found!';
 });
 
-// Define routes
-$router->match('GET', '/iniciar-sesion', 'ControllersAdmin\UserShow@showLogin');
+// Define rutas sesión
+$router->match('GET', '/iniciar-sesion', 'ControllersAdmin\Show@login');
 $router->match('POST', 'log-in', 'ControllersAdmin\Sesion@login');
 
-$router->match('GET', '/crear-usuario', 'ControllersAdmin\UserShow@showCreateUser');
-$router->match('POST', 'create-user', 'ControllersAdmin\UserFunction@createUser');
-
-$router->match('GET', '/olvide-mis-datos', 'ControllersAdmin\UserShow@showForgetData');
-$router->match('POST', 'forget-data', 'ControllersAdmin\UserFunction@forgetData');
-
-$router->match('GET', '/editar-usuario', 'ControllersAdmin\UserShow@showUpdateUser');
-$router->match('POST', 'update-user', 'ControllersAdmin\UserFunction@updateUser');
-
-$router->match('GET', '/usuarios', 'ControllersAdmin\UserShow@showUsers');
+$router->match('GET', '/olvide-mis-datos', 'ControllersAdmin\Show@forgetData');
+$router->match('POST', 'forget-data', 'ControllersAdmin\Sesion@forgetData');
 
 $router->match('POST', 'create-temporary-data', 'ControllersAdmin\Sesion@createTemporaryData');
 
-$router->match('POST', 'delete-user', 'ControllersAdmin\UserFunction@deleteUser');
+// Define rutas usuario
+$router->match('GET', '/crear-usuario', 'ControllersAdmin\Show@createUser');
+$router->match('POST', 'create-user', 'ControllersAdmin\User@create');
 
+$router->match('GET', '/editar-usuario', 'ControllersAdmin\Show@updateUser');
+$router->match('POST', 'update-user', 'ControllersAdmin\User@update');
+
+$router->match('POST', 'delete-user', 'ControllersAdmin\User@delete');
+
+$router->match('GET', '/usuarios', 'ControllersAdmin\Show@users');
+
+
+// Define rutas archivos
+$router->match('GET', '/crear-archivo', 'ControllersAdmin\Show@createFile');
+$router->match('POST', 'create-file', 'ControllersAdmin\File@create');
+
+$router->match('GET', '/editar-archivo', 'ControllersAdmin\Show@updateFile');
+$router->match('POST', 'update-file', 'ControllersAdmin\File@update');
+
+$router->match('POST', 'delete-file', 'ControllersAdmin\File@delete');
+
+$router->match('GET', '/archivos', 'ControllersAdmin\Show@files');
 
 ?>

@@ -1,11 +1,11 @@
 <?php
 namespace ControllersAdmin;
 
-use Models\adminusuarioModel as User;
+use Models\adminusuarioModel as UserModel;
 use Core\Request as Request;
 use Illuminate\Database\QueryException as queryException;
 
-class UserFunction{
+class User{
 
     static private $response=array(),$request;
 
@@ -13,11 +13,11 @@ class UserFunction{
         self::$request=Request::post();
         self::$response["boolean"]=false;
         self::$response["message"]='Intentalo de nuevo';        
-        self::$response["catch"]='';        
+        self::$response["catch"]='';       
     }
 
     //función para crear un usuario
-    public static function createUser(){
+    public static function create(){
 
         if (self::fieldExists("usuario",self::$request["user"])) {
             self::$response["message"]='El usuario ya existe';
@@ -27,7 +27,7 @@ class UserFunction{
 
             try{
 
-                $user = new User;
+                $user = new UserModel;
                 $user->idPerfil=self::$request["profile"];
                 $user->estado=self::$request["state"];
                 $user->usuario =self::$request["user"];
@@ -48,11 +48,11 @@ class UserFunction{
     }
 
     //función para eliminar un usuario
-    public static function deleteUser(){
+    public static function delete(){
 
         try{
 
-            $user = User::find(self::$request["id"]);
+            $user = UserModel::find(self::$request["id"]);
             $user->estado="I";
             $user->save();
 
@@ -66,7 +66,7 @@ class UserFunction{
     }
 
     //función para editar un usuario
-    public static function updateUser(){
+    public static function update(){
 
         if(self::fieldExists("correo",self::$request["email"])) {
             self::$response["message"]='El correo ya existe';
@@ -74,7 +74,7 @@ class UserFunction{
 
             try{
 
-                $user = User::find(self::$request["id"]);
+                $user = UserModel::find(self::$request["id"]);
                 $user->idPerfil=self::$request["idProfile"];
                 $user->estado=self::$request["state"];
                 $user->correo =self::$request["email"];
@@ -95,7 +95,7 @@ class UserFunction{
     //Retorna todos los usuarios
     public static function get(){
         $users = 
-            User::join('admin_perfil', 'admin_usuario.idPerfil', '=', 'admin_perfil.id')
+            UserModel::join('admin_perfil', 'admin_usuario.idPerfil', '=', 'admin_perfil.id')
             ->select('admin_usuario.*', 'admin_perfil.nombre as perfil')
             ->get();
         $users=empty($users) ? $users : $users->toArray();
@@ -105,14 +105,14 @@ class UserFunction{
 
     //Retorna un campo o un registro completo, según un campo que tenga atributo unique en la base de datos
     public static function getByUnique($field,$unique){
-        $user=User::where($field,$unique)->first();
+        $user=UserModel::where($field,$unique)->first();
         $user=empty($user) ? $user : $user->toArray();
         return $user;   
     }
 
     //Retorna un registro de la base de datos según el usuario o el correo
     public static function getByUserOrEmail($value){
-        $user=User::where("usuario", $value )->orWhere("correo",$value)->first();
+        $user=UserModel::where("usuario", $value )->orWhere("correo",$value)->first();
         $user=empty($user) ? $user : $user->toArray();
         return $user;   
     }
@@ -120,7 +120,7 @@ class UserFunction{
 
     //Retorna una repuesta positiva si existe el campo
     public static function fieldExists($field,$value){
-        return (empty(User::where($field, $value)->pluck($field)->toArray())) ? false:true;
+        return (empty(UserModel::where($field, $value)->pluck($field)->toArray())) ? false:true;
     }
 }
 ?>
