@@ -40,14 +40,14 @@ $router->mount('(.*)', function() use ($router) {
     Request::setGet($_GET);
 
     $router->match('GET','/',function($url) use ($router){
-
         $url = ($url=="")?"/":$url;
-        Seccion::make($url);
-        $seccion = Seccion::$data;
 
         // Se guarda la url en array
         $urlArray = explode("/",$url);
         Request::setUrl($urlArray);
+
+        Seccion::make($url);
+        $seccion = Seccion::$data;
         
         if (isset(Seccion::$data) && Seccion::$data) {
             if (isset($seccion->controlador) && $seccion->controlador != "" && isset($seccion->accion) && $seccion->accion != "") {

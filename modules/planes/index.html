@@ -1,0 +1,15 @@
+{#foreach from=$planes item=plan#}
+	<div>		
+		<h1>{#$plan['nombre']#}</h1>
+		<div>
+			<div><b>{#$plan['voz']#}</b> Minutos</div>
+			<div><b>{#$plan['datos']#}</b> Gb</div>
+			<div><b>{#$plan['mensajes']#}</b> sms</div>
+		</div>
+		<div>
+			<div>Valor del plan <b>{#$plan['precio']#}</b></div>
+			<p>{#$plan['descripcion']#}</p>
+		</div>
+		<a href="{#PATH_ROOT#}{#$plan['ruta']#}">Link al plan</a>
+	</div>
+{#/foreach#}
