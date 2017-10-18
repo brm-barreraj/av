@@ -53,26 +53,28 @@
 				{#/foreach#}			
 			</div>
 		{#else#}
-			{#if $components->tipoComponente == 'menu'#}
-				{#if !$components->idPadre#}<ul>{#/if#}
-			    {#if $components->idPadre#}
-			    	<li>{#$components->texto#}</li>
-			    	{#if count($componentss)-1 == $key#}
-			    		</ul>
-			    	{#/if#}
-			    {#/if#}
-			{#elseif $components->tipoComponente == 'contenido'#}
-				{#if $components->tipoContenido == 'contenido' #}
-			    	{#$components->contenido#}
-		    	{#elseif $components->tipoContenido == 'multimedia'#}	
-		    		{#if $components->tipo == 'jpg' #}
-					  <img src="{#PATH_ROOT#}/images/{#$components->nombreArchivo#}.{#$components->tipo#}">			    		
+			<div class="{#$components->tipoComponente#}">
+				{#if $components->tipoComponente == 'menu'#}
+					{#if !$components->idPadre#}<ul>{#/if#}
+				    {#if $components->idPadre#}
+				    	<li>{#$components->texto#}</li>
+				    	{#if count($componentss)-1 == $key#}
+				    		</ul>
+				    	{#/if#}
 				    {#/if#}
-			    {#/if#}			   
-			{#else#}
-				{#assign var="nombreModulo" value=$components->nombre#}
-			    {#include  file="../../modules/$nombreModulo/index.html"#}
-			{#/if#}
+				{#elseif $components->tipoComponente == 'contenido'#}
+					{#if $components->tipoContenido == 'contenido' #}
+				    	{#$components->contenido#}
+			    	{#elseif $components->tipoContenido == 'multimedia'#}	
+			    		{#if $components->tipo == 'jpg' #}
+						  <img src="{#PATH_ROOT#}/images/{#$components->nombreArchivo#}.{#$components->tipo#}">			    		
+					    {#/if#}
+				    {#/if#}			   
+				{#else#}
+					{#assign var="nombreModulo" value=$components->nombre#}
+				    {#include  file="../../modules/$nombreModulo/index.html"#}
+				{#/if#}
+			</div>
 		{#/if#}	
 	{#/foreach#}
 
