@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+</head>
+<body>
+	<form id="create-menu" method="post" accept-charset="utf-8">
+		<input type="text" name="name" id="name" placeholder="Digite el nombre">
+
+		<div id="items-wrap">
+		    <button id="add-item">Añadir item</button>
+		    <fieldset>
+		    	<legend>Item 1:</legend>
+		    	<div>
+		    		<label for="item-1">Item 1</label>
+		    		<input type="text" name="texto[]" id="texto-1" placeholder="Digite el texto 1">
+		    		<input type="text" name="url[]" id="url-1" placeholder="Digite la url item 1">
+		    	</div>
+		    </fieldset>
+		</div>
+
+		<button type="button">Crear menu</button>
+	</form>
+	<div id="message"></div>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="js/functions.js"></script>
+	<script type="text/javascript" src="js/create-menu.js"></script>
+	</body>
+</html>

@@ -6,7 +6,7 @@ bd="avantel"
 tables=[]
 firstData=0
 replace=" "
-prex="av_"
+prex="cms_"
 mkdir models
 while read -a row
 do

@@ -1,7 +1,7 @@
 <?php
 namespace ControllersAdmin;
 
-use Models\multimediaModel as FileModel;
+use Models\archivoModel as FileModel;
 use Core\Request as Request;
 use Illuminate\Database\QueryException as queryException;
 
