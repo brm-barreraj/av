@@ -16,7 +16,7 @@ class Menu{
         self::$response["catch"]='';       
     }
 
-    //función para crear un usuario
+    //función para crear un menu
     public static function create(){
 
         try{
@@ -24,9 +24,7 @@ class Menu{
             $menu = new MenuModel;
             $menu->idPadre=self::$request["father"];
             $menu->texto=self::$request["text"];
-            $menu->urlIcono =self::$request["email"];
-            $menu->tituloIcono =self::$request["name"];
-            $menu->urlExterna =self::$request["lastname"];
+            $menu->enlace =self::$request["link"];
             $menu->save();
 
             self::$response["boolean"]=true;
@@ -39,14 +37,13 @@ class Menu{
 
     }
 
-    //función para eliminar un usuario
+    //función para eliminar un menu
     public static function delete(){
 
         try{
 
-            $user = MenuModel::find(self::$request["id"]);
-            $user->estado="I";
-            $user->save();
+            $menu = MenuModel::find(self::$request["id"]);
+            $menu->delete();
 
             self::$response["boolean"]=true;
             self::$response["message"]='Los datos fueron actulizados';
@@ -57,62 +54,22 @@ class Menu{
 
     }
 
-    //función para editar un usuario
+    //función para editar un menu
     public static function update(){
 
-        if(self::fieldExists("correo",self::$request["email"])) {
-            self::$response["message"]='El correo ya existe';
-        }else{
+        try{
 
-            try{
+            $user = MenuModel::find(self::$request["id"]);
+            $menu->idPadre=self::$request["father"];
+            $menu->texto=self::$request["text"];
+            $menu->enlace =self::$request["link"];
+            $user->save();
 
-                $user = MenuModel::find(self::$request["id"]);
-                $user->idPerfil=self::$request["idProfile"];
-                $user->estado=self::$request["state"];
-                $user->correo =self::$request["email"];
-                $user->nombre =self::$request["name"];
-                $user->apellido =self::$request["lastname"];
-                $user->save();
+            self::$response["boolean"]=true;
+            self::$response["message"]='Los datos fueron actulizados';
 
-                self::$response["boolean"]=true;
-                self::$response["message"]='Los datos fueron actulizados';
-
-            }catch (queryException $e){ self::$response["catch"]=$e; }
-
-        }
-        echo json_encode(self::$response);
-
+        }catch (queryException $e){ self::$response["catch"]=$e; }
     }
 
-    //Retorna todos los usuarios
-    public static function get(){
-        $users = 
-            MenuModel::join('admin_perfil', 'admin_usuario.idPerfil', '=', 'admin_perfil.id')
-            ->select('admin_usuario.*', 'admin_perfil.nombre as perfil')
-            ->get();
-        $users=empty($users) ? $users : $users->toArray();
-        return $users;   
-    }
-
-
-    //Retorna un campo o un registro completo, según un campo que tenga atributo unique en la base de datos
-    public static function getByUnique($field,$unique){
-        $user=MenuModel::where($field,$unique)->first();
-        $user=empty($user) ? $user : $user->toArray();
-        return $user;   
-    }
-
-    //Retorna un registro de la base de datos según el usuario o el correo
-    public static function getByUserOrEmail($value){
-        $user=MenuModel::where("usuario", $value )->orWhere("correo",$value)->first();
-        $user=empty($user) ? $user : $user->toArray();
-        return $user;   
-    }
-
-
-    //Retorna una repuesta positiva si existe el campo
-    public static function fieldExists($field,$value){
-        return (empty(MenuModel::where($field, $value)->pluck($field)->toArray())) ? false:true;
-    }
 }
 ?>

@@ -55,4 +55,16 @@ $router->match('POST', 'delete-menu', 'ControllersAdmin\Menu@delete');
 $router->match('GET', '/menus', 'ControllersAdmin\Show@menus');
 
 
+//Rutas crud modulo
+$router->match('GET', '/crear-modulo', 'ControllersAdmin\Show@createModule');
+$router->match('POST', 'create-module', 'ControllersAdmin\Module@create');
+
+$router->match('GET', '/editar-modulo', 'ControllersAdmin\Show@updateModule');
+$router->match('POST', 'update-module', 'ControllersAdmin\Module@update');
+
+$router->match('POST', 'delete-module', 'ControllersAdmin\Module@delete');
+
+$router->match('GET', '/modulos', 'ControllersAdmin\Show@modules');
+
+
 ?>

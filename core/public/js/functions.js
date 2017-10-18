@@ -11,6 +11,7 @@ function sendform(object) {
 	});			
 }
 
+//Funcíon para enviar todos los atributos data- de un nodo en el html
 function senddata($this,url) {
 	var serialize=serializedata($this);
 	var message;

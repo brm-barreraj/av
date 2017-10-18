@@ -12,12 +12,12 @@
 		<input type="text" name="email" id="email" placeholder="Digite su correo" value="{#$user['correo'] #}">
 		<select id="profile" name="profile">
 			{#foreach from=$profiles item=profile #}
-			  <option value="{#$profile.id #}">{#$profile.nombre #}</option>
+			  <option value="{#$profile.id #}" selected="{#if $user['perfil']==$profile.nombre #}true{#else#}false{#/if#}">{#$profile.nombre #}</option>
 			{#/foreach #}
 		</select>
 		<select id="state" name="state">
-			  <option value="A">Activo</option>
-			  <option value="I">Inactivo</option>
+			  <option value="A" selected="{#if $user['estado']=='A' #}true{#else#}false{#/if#}">Activo</option>
+			  <option value="I" selected="{#if $user['estado']=='I' #}true{#else#}false{#/if#}">Inactivo</option>
 		</select>
 		<button type="button">Ediatr perfil</button>
 	</form>
