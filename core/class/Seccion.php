@@ -3,7 +3,8 @@ namespace Core;
 use Models\SeccionModel;
 use Models\MenuModel;
 use Models\ComponenteModel;
-use Models\ArchivoModel;
+use Models\ArchivoXModuloModel;
+use Models\ArchivoXSeccionModel;
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 
@@ -44,16 +45,17 @@ class Seccion{
             if(count($results)>1){
                 foreach ($module as $value) {
                     call_user_func(array("\Modules\\".$value->nombre.'\\'.ucwords($value->nombre).'Module', 'index'));
-                    self::$archivesModules = ArchivoModel::orderBy('peso')
-                        ->join('Modulo', 'modulo.id', '=', 'Archivo.idModulo')
+                    self::$archivesModules = ArchivoXModuloModel::orderBy('orden')
+                        ->join('Modulo', 'modulo.id', '=', 'archivo_x_modulo.idModulo')
+                        ->join('Archivo', 'archivo.id','=','archivo_x_modulo.idArchivo')
                         ->select(
                             'Modulo.nombre as nombreModulo',
-                            'Archivo.idModulo',
-                            'Archivo.id',
-                            'Archivo.peso',
-                            'Archivo.posicion',
-                            'Archivo.nombre as nombreArchivo',
-                            'tipoArchivo'
+                            'archivo_x_modulo.idModulo',
+                            'archivo_x_modulo.idArchivo',
+                            'archivo_x_modulo.orden',
+                            'archivo_x_modulo.posicion',
+                            'Archivo.nombreArchivo',
+                            'tipo'
                         )
                         ->where("idModulo",$value->id)
                         ->get()
@@ -62,16 +64,17 @@ class Seccion{
                 }
             }else if(count($results)==1){                        
                 call_user_func(array("\Modules\\".$module->nombre.'\\'.ucwords($module->nombre).'Module', 'index'));
-                    self::$archivesModules = ArchivoModel::orderBy('peso')
-                        ->join('Modulo', 'modulo.id', '=', 'Archivo.idModulo')
+                    self::$archivesModules = ArchivoXModuloModel::orderBy('orden')
+                        ->join('Modulo', 'modulo.id', '=', 'archivo_x_modulo.idModulo')
+                        ->join('Archivo', 'archivo.id','=','archivo_x_modulo.idArchivo')
                         ->select(
                             'Modulo.nombre as nombreModulo',
-                            'Archivo.idModulo',
-                            'Archivo.id',
-                            'Archivo.peso',
-                            'Archivo.posicion',
-                            'Archivo.nombre as nombreArchivo',
-                            'tipoArchivo'
+                            'archivo_x_modulo.idModulo',
+                            'archivo_x_modulo.idArchivo',
+                            'archivo_x_modulo.orden',
+                            'archivo_x_modulo.posicion',
+                            'Archivo.nombreArchivo',
+                            'tipo'
                         )
                         ->where("idModulo",$module->id)
                         ->get()
@@ -90,15 +93,16 @@ class Seccion{
         if(self::$data){
             self::$components = self::CallRaw('cursorOrden',[self::$data->id]);
             self::modules(self::$components);
-            self::$archivesSeccion = ArchivoModel::orderBy('peso')
-                ->join('Seccion', 'seccion.id', '=', 'Archivo.idSeccion')
+            self::$archivesSeccion = ArchivoXSeccionModel::orderBy('orden')
+                ->join('Seccion', 'seccion.id', '=', 'archivo_x_seccion.idSeccion')
+                ->join('Archivo', 'archivo.id','=','archivo_x_seccion.idArchivo')
                 ->select(
-                    'Archivo.idSeccion',
-                    'Archivo.id',
-                    'Archivo.peso',
-                    'Archivo.posicion',
-                    'Archivo.nombre as nombreArchivo',
-                    'tipoArchivo'
+                    'archivo_x_seccion.idSeccion',
+                    'archivo_x_seccion.idArchivo',
+                    'archivo_x_seccion.orden',
+                    'archivo_x_seccion.posicion',
+                    'archivo.nombreArchivo',
+                    'tipo'
                 )
                 ->where("idSeccion",self::$data->id)
                 ->get()

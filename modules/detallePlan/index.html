@@ -11,3 +11,14 @@
 	<div>Valor del plan <b>{#$plan->precio#}</b></div>
 	<p>{#$plan->descripcion#}</p>
 </div>
+{#if $caracteristicas|@count > 0#}
+	<div>
+		<h2>Caracteristicas</h2>
+		{#foreach from=$caracteristicas item=caracteristica#}
+			<div>
+				<p>{#$caracteristica['titulo']#}</p>			
+				<p>{#$caracteristica['descripcion']#}</p>				
+			</div>
+		{#/foreach#}
+	</div>
+{#/if#}

@@ -2,10 +2,12 @@
 namespace Modules\detallePlan;
 use Models\PlanModel as Plan;
 use Core\Seccion;
+use Models\CaracteristicasPlanProductoModel as CaracteristicasPlanProducto;
 
 class DetallePlanModule{
 	static function index(){
 		$plan = Plan::where('idSeccion',Seccion::$data->id)->get()->first();
-		views()->assign("plan",$plan);
+		$caracteristicas = CaracteristicasPlanProducto::where('idPlan',$plan->id)->get();
+		views()->assign(compact(['plan','caracteristicas']));
 	}
 }

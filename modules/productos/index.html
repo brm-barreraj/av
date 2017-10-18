@@ -1,0 +1,10 @@
+{#foreach from=$productos item=producto#}
+	<div>		
+		<h1>{#$producto['nombre']#}</h1>		
+		<div>
+			<div>Valor del plan <b>{#$producto['precio']#}</b></div>
+			<p>{#$producto['descripcion']#}</p>
+		</div>
+		<a href="{#PATH_ROOT#}{#$producto['ruta']#}">Link al plan</a>
+	</div>
+{#/foreach#}
