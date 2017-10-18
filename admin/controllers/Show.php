@@ -3,6 +3,7 @@ namespace ControllersAdmin;
 use ControllersAdmin\Profile as Profile;
 use ControllersAdmin\User as User;
 use ControllersAdmin\File as File;
+use ControllersAdmin\Sign as Sign;
 use Core\Request as Request;
 
 class Show{

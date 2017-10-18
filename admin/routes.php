@@ -1,7 +1,7 @@
 <?php
 
 ini_set("display_errors", 1);
-error_reporting(E_ALL);
+error_reporting(E_ALL ^ E_DEPRECATED);
 
 // Custom 404 Handler
 $router->set404(function () {
@@ -9,16 +9,17 @@ $router->set404(function () {
     echo '404, route not found!';
 });
 
-// Define rutas sesión
+//Rutas sesión
 $router->match('GET', '/iniciar-sesion', 'ControllersAdmin\Show@login');
-$router->match('POST', 'log-in', 'ControllersAdmin\Sesion@login');
+$router->match('GET', '/cerrar-sesion', 'ControllersAdmin\Sign@logOut');
+$router->match('POST', 'log-in', 'ControllersAdmin\Sign@logIn');
+
+
 
 $router->match('GET', '/olvide-mis-datos', 'ControllersAdmin\Show@forgetData');
-$router->match('POST', 'forget-data', 'ControllersAdmin\Sesion@forgetData');
+$router->match('POST', 'forget-data', 'ControllersAdmin\Sign@forgetData');
 
-$router->match('POST', 'create-temporary-data', 'ControllersAdmin\Sesion@createTemporaryData');
-
-// Define rutas usuario
+//Rutas crud usuario
 $router->match('GET', '/crear-usuario', 'ControllersAdmin\Show@createUser');
 $router->match('POST', 'create-user', 'ControllersAdmin\User@create');
 
@@ -30,7 +31,7 @@ $router->match('POST', 'delete-user', 'ControllersAdmin\User@delete');
 $router->match('GET', '/usuarios', 'ControllersAdmin\Show@users');
 
 
-// Define rutas archivos
+//Rutas crud archivo
 $router->match('GET', '/crear-archivo', 'ControllersAdmin\Show@createFile');
 $router->match('POST', 'create-file', 'ControllersAdmin\File@create');
 
@@ -40,5 +41,18 @@ $router->match('POST', 'update-file', 'ControllersAdmin\File@update');
 $router->match('POST', 'delete-file', 'ControllersAdmin\File@delete');
 
 $router->match('GET', '/archivos', 'ControllersAdmin\Show@files');
+
+
+//Rutas crud menu
+$router->match('GET', '/crear-menu', 'ControllersAdmin\Show@createMenu');
+$router->match('POST', 'create-menu', 'ControllersAdmin\Menu@create');
+
+$router->match('GET', '/editar-menu', 'ControllersAdmin\Show@updateMenu');
+$router->match('POST', 'update-menu', 'ControllersAdmin\Menu@update');
+
+$router->match('POST', 'delete-menu', 'ControllersAdmin\Menu@delete');
+
+$router->match('GET', '/menus', 'ControllersAdmin\Show@menus');
+
 
 ?>

@@ -8,10 +8,10 @@ $capsule->addConnection([
  'host' => 'localhost',
  'database' => 'avantel',
  'username' => 'root',
- 'password' => '',
+ 'password' => 'root',
  'charset' => 'utf8',
  'collation' => 'utf8_unicode_ci',
- 'prefix' => 'av_'
+ 'prefix' => 'cms_'
 ]);
  
 $capsule->setAsGlobal();

@@ -1,11 +1,11 @@
 <?php
 namespace ControllersAdmin;
 
-use Models\usuarioModel as UserModel;
+use Models\menuModel as MenuModel;
 use Core\Request as Request;
 use Illuminate\Database\QueryException as queryException;
 
-class User{
+class Menu{
 
     static private $response=array(),$request;
 
@@ -27,7 +27,7 @@ class User{
 
             try{
 
-                $user = new UserModel;
+                $user = new MenuModel;
                 $user->idPerfil=self::$request["profile"];
                 $user->estado=self::$request["state"];
                 $user->usuario =self::$request["user"];
@@ -52,7 +52,7 @@ class User{
 
         try{
 
-            $user = UserModel::find(self::$request["id"]);
+            $user = MenuModel::find(self::$request["id"]);
             $user->estado="I";
             $user->save();
 
@@ -74,7 +74,7 @@ class User{
 
             try{
 
-                $user = UserModel::find(self::$request["id"]);
+                $user = MenuModel::find(self::$request["id"]);
                 $user->idPerfil=self::$request["idProfile"];
                 $user->estado=self::$request["state"];
                 $user->correo =self::$request["email"];
@@ -95,7 +95,7 @@ class User{
     //Retorna todos los usuarios
     public static function get(){
         $users = 
-            UserModel::join('admin_perfil', 'admin_usuario.idPerfil', '=', 'admin_perfil.id')
+            MenuModel::join('admin_perfil', 'admin_usuario.idPerfil', '=', 'admin_perfil.id')
             ->select('admin_usuario.*', 'admin_perfil.nombre as perfil')
             ->get();
         $users=empty($users) ? $users : $users->toArray();
@@ -105,14 +105,14 @@ class User{
 
     //Retorna un campo o un registro completo, según un campo que tenga atributo unique en la base de datos
     public static function getByUnique($field,$unique){
-        $user=UserModel::where($field,$unique)->first();
+        $user=MenuModel::where($field,$unique)->first();
         $user=empty($user) ? $user : $user->toArray();
         return $user;   
     }
 
     //Retorna un registro de la base de datos según el usuario o el correo
     public static function getByUserOrEmail($value){
-        $user=UserModel::where("usuario", $value )->orWhere("correo",$value)->first();
+        $user=MenuModel::where("usuario", $value )->orWhere("correo",$value)->first();
         $user=empty($user) ? $user : $user->toArray();
         return $user;   
     }
@@ -120,7 +120,7 @@ class User{
 
     //Retorna una repuesta positiva si existe el campo
     public static function fieldExists($field,$value){
-        return (empty(UserModel::where($field, $value)->pluck($field)->toArray())) ? false:true;
+        return (empty(MenuModel::where($field, $value)->pluck($field)->toArray())) ? false:true;
     }
 }
 ?>

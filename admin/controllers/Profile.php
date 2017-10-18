@@ -1,7 +1,7 @@
 <?php
 namespace ControllersAdmin;
 
-use Models\adminperfilModel as Profile;
+use Models\perfilModel as ProfileModel;
 
 class Profile{
 
@@ -9,7 +9,7 @@ class Profile{
     }
 
     public static function get(){
-        return Profile::where("estado","A")->get()->toArray();
+        return ProfileModel::where("estado","A")->get()->toArray();
     }
 
 }
