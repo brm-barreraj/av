@@ -19,28 +19,20 @@ class Menu{
     //función para crear un usuario
     public static function create(){
 
-        if (self::fieldExists("usuario",self::$request["user"])) {
-            self::$response["message"]='El usuario ya existe';
-        }else if(self::fieldExists("correo",self::$request["email"])) {
-            self::$response["message"]='El correo ya existe';
-        }else{
+        try{
 
-            try{
+            $menu = new MenuModel;
+            $menu->idPadre=self::$request["father"];
+            $menu->texto=self::$request["text"];
+            $menu->urlIcono =self::$request["email"];
+            $menu->tituloIcono =self::$request["name"];
+            $menu->urlExterna =self::$request["lastname"];
+            $menu->save();
 
-                $user = new MenuModel;
-                $user->idPerfil=self::$request["profile"];
-                $user->estado=self::$request["state"];
-                $user->usuario =self::$request["user"];
-                $user->correo =self::$request["email"];
-                $user->nombre =self::$request["name"];
-                $user->apellido =self::$request["lastname"];
-                $user->contrasena = sha1(self::$request["password"]);
-                $user->save();
+            self::$response["boolean"]=true;
+            self::$response["message"]='Registro exitoso';
 
-                self::$response["boolean"]=true;
-                self::$response["message"]='Registro exitoso';
-
-            }catch (queryException $e){ self::$response["catch"]=$e; }
+        }catch (queryException $e){ self::$response["catch"]=$e; }
 
         }
         echo json_encode(self::$response);
