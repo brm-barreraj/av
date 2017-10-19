@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+</head>
+<body>
+	<form id="update-module" method="post" accept-charset="utf-8">
+		<input type="hidden" name="id" id="id" value="{#$module['id'] #}">
+		<input type="text" name="name" id="name" placeholder="Digite el nombre" value="{#$module['nombre'] #}">
+		<select id="state" name="state">
+			  <option value="A" {#if $module['estado']=='A' #}selected{#/if#} >Activo</option>
+			  <option value="I" {#if $module['estado']=='I' #}selected{#/if#} >Inactivo</option>
+		</select>
+		<select id="administrable" name="administrable">
+			  <option value="Si" {#if $module['administrable']=='Si' #}selected{#/if#} >Si</option>
+			  <option value="No" {#if $module['administrable']=='No' #}selected{#/if#} >No</option>
+		</select>
+		<button type="button">Editar modulo</button>
+	</form>
+	<div id="message"></div>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="js/functions.js"></script>
+	<script type="text/javascript" src="js/update-module.js"></script>	
+</body>
+</html>

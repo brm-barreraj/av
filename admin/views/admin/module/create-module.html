@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+</head>
+<body>
+	<form id="create-module" method="post" accept-charset="utf-8">
+		<label for="name">Nombre</label>
+		<select name="name" id="name">
+			{#foreach from=$modules item=module #}
+			  <option value="{#$module #}">{#$module #}</option>
+			{#/foreach #}
+		</select>
+
+		<label for="state">Estado</label>
+		<select id="state" name="state">
+			  <option value="A">Activo</option>
+			  <option value="I">Inactivo</option>
+		</select>
+		<label for="administrable">Administrable</label>
+		<select id="administrable" name="administrable">
+			  <option value="Si">Si</option>
+			  <option value="No">No</option>
+		</select>
+		<button type="button">Crear modulo</button>
+	</form>
+	<div id="message"></div>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="js/functions.js"></script>
+	<script type="text/javascript" src="js/create-module.js"></script>
+	</body>
+</html>
