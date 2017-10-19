@@ -19,7 +19,7 @@ class Seccion{
     public static function show(){      
         views()->assign("data",self::$components);
         views()->assign("archivesModules",self::$archivesModules);
-        views()->assign("archivesSeccion",self::$archivesModules);
+        views()->assign("archivesSeccion",self::$archivesSeccion);
         views()->display("index.html");
     }
 
