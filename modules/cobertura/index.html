@@ -1,0 +1,23 @@
+<style>
+	#map {
+		height: 30vh;
+		width: 30vw;
+	}     
+</style>
+<div id="message"></div>
+<form id="cobertura" method="post" accept-charset="utf-8">
+	<select id="red" name="red">
+		<option>Red</option>
+		<option value="red3g">Red 3G</option>
+		<option value="red4g">Red 4G</option>
+	</select>
+	<select id="ciudad" name="ciudad">
+		<option>Ciudad</option>
+		<option value="bogota">Bogotá</option>
+		<option value="cali">Cali</option>
+	</select>
+	<button type="button">Enviar</button>
+</form>
+<div id="map"></div>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBeGNwAvhSmWH0zNOh2y477IK9TjtygLzI&callback=locationInitial"
+  type="text/javascript"></script></script>
