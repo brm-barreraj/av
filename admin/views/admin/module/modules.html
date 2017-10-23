@@ -21,7 +21,7 @@
 					<td>{#$module.estado #}</td>
 					<td>
 						<button data-id="{#$module.id #}" class="update-module">Editar</button>
-						{#if $module.administrable=="Si" #}
+						{#if $module.administrable=="S" #}
 						<button data-name="{#$module.nombre #}" class="configurate-module">Configurar</button>
 						{#/if#}						
 						<button data-id="{#$module.id #}" class="delete-module">Eliminar</button>
@@ -30,6 +30,10 @@
 			{#/foreach #}
 		</tbody>
 	</table>
+	<ul>
+		<li><a href="crear-modulo" title="">Crear modulo</a></li>
+		<li><a href="perfil" title="">Volver</a></li>
+	</ul>
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="js/functions.js"></script>
 	<script type="text/javascript" src="js/modules.js"></script>

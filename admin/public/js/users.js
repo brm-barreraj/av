@@ -5,8 +5,10 @@ $(document).ready(function(){
 	});
 
 	$(".delete-user").on( "click", function() {
-		var message=senddata($(this),"delete-user");
-		window.location = "usuarios";
+		var response=senddata($(this),"delete-user");
+	    if (response['boolean']) {
+	      setTimeout(function(){ window.location = "usuarios"; }, 3000);
+	    }
 	});
 
 })

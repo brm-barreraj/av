@@ -20,9 +20,15 @@
         <link rel="stylesheet" type="text/css" href="js/vendor/build/content-tools.min.css">
     </head>
     <body>
-        <article  data-editable data-name="article">
+        <article class="article">
+            <div data-editable data-name="article">
                 {#$content['contenido']#}
+            </div>
         </article>
+        <form id="update-content" method="post" accept-charset="utf-8">
+            <input type="hidden" name="id" value="{#$content['id']#}">
+            <input type="hidden" name="content" id="content">
+        </form>
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script type="text/javascript" src="js/vendor/build/content-tools.js"></script>
         <script type="text/javascript" src="js/sandbox.js"></script>

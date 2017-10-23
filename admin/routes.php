@@ -1,7 +1,7 @@
 <?php
 
-ini_set("display_errors", 1);
-error_reporting(E_ALL ^ E_DEPRECATED);
+//ini_set("display_errors", 1);
+//error_reporting(E_ALL ^ E_DEPRECATED);
 
 // Custom 404 Handler
 $router->set404(function () {
@@ -14,12 +14,13 @@ $router->match('GET', '/iniciar-sesion', 'ControllersAdmin\Show@login');
 $router->match('GET', '/cerrar-sesion', 'ControllersAdmin\Sign@logOut');
 $router->match('POST', 'log-in', 'ControllersAdmin\Sign@logIn');
 
-
-
 $router->match('GET', '/olvide-mis-datos', 'ControllersAdmin\Show@forgetData');
 $router->match('POST', 'forget-data', 'ControllersAdmin\Sign@forgetData');
 
 //Rutas crud usuario
+
+$router->match('GET', '/perfil', 'ControllersAdmin\Show@profile');
+
 $router->match('GET', '/crear-usuario', 'ControllersAdmin\Show@createUser');
 $router->match('POST', 'create-user', 'ControllersAdmin\User@create');
 

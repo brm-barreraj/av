@@ -5,8 +5,10 @@ $(document).ready(function(){
 	});
 
 	$(".delete-menu").on( "click", function() {
-		senddata($(this),"delete-menu");
-		window.location = "menus";
+		var response=senddata($(this),"delete-menu");
+		if (response['boolean']) {
+      		setTimeout(function(){ window.location = "menus"; }, 3000);
+		}
 	});
 
 })

@@ -1,5 +1,8 @@
 $(document).ready(function(){
 	$("#create-module button").on( "click", function() {
-		sendform("create-module");
+		var response=sendform("create-module");
+		if (response['boolean']) {
+      		setTimeout(function(){ window.location = "contenidos"; }, 3000);
+		}
 	});
 });

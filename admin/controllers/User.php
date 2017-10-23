@@ -68,26 +68,21 @@ class User{
     //función para editar un usuario
     public static function update(){
 
-        if(self::fieldExists("correo",self::$request["email"])) {
-            self::$response["message"]='El correo ya existe';
-        }else{
+        try{
 
-            try{
+            $user = UserModel::find(self::$request["id"]);
+            $user->idPerfil=self::$request["profile"];
+            $user->estado=self::$request["state"];
+            $user->correo =self::$request["email"];
+            $user->nombre =self::$request["name"];
+            $user->apellido =self::$request["lastname"];
+            $user->save();
 
-                $user = UserModel::find(self::$request["id"]);
-                $user->idPerfil=self::$request["idProfile"];
-                $user->estado=self::$request["state"];
-                $user->correo =self::$request["email"];
-                $user->nombre =self::$request["name"];
-                $user->apellido =self::$request["lastname"];
-                $user->save();
+            self::$response["boolean"]=true;
+            self::$response["message"]='Los datos fueron actulizados';
 
-                self::$response["boolean"]=true;
-                self::$response["message"]='Los datos fueron actulizados';
+        }catch (queryException $e){ self::$response["catch"]=$e; }
 
-            }catch (queryException $e){ self::$response["catch"]=$e; }
-
-        }
         echo json_encode(self::$response);
 
     }
@@ -95,8 +90,8 @@ class User{
     //Retorna todos los usuarios
     public static function get(){
         $users = 
-            UserModel::join('admin_perfil', 'admin_usuario.idPerfil', '=', 'admin_perfil.id')
-            ->select('admin_usuario.*', 'admin_perfil.nombre as perfil')
+            UserModel::join('perfil', 'usuario.idPerfil', '=', 'perfil.id')
+            ->select('usuario.*', 'perfil.nombre as perfil')
             ->get();
         $users=empty($users) ? $users : $users->toArray();
         return $users;   

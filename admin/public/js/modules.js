@@ -9,8 +9,10 @@ $(document).ready(function(){
 	});
 
 	$(".delete-module").on( "click", function() {
-		senddata($(this),"delete-module");
-		window.location = "modulos";
+		var response=senddata($(this),"delete-module");
+		if (response['boolean']) {
+      		setTimeout(function(){ window.location = "modulos"; }, 3000);
+		}
 	});
 
 })

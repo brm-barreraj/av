@@ -5,7 +5,7 @@ $(document).ready(function(){
 	});
 
 	$(".delete-content").on( "click", function() {
-		var message=senddata($(this),"delete-content");
+		senddata($(this),"delete-content");
 		window.location = "contenidos";
 	});
 

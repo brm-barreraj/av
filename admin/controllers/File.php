@@ -18,8 +18,10 @@ class File{
 
     //función para crear un archivo multimedia
     public static function create(){
+        echo "string";
         if (!empty($_FILES)) {
-
+            echo "string";
+            printVar($_FILES);
             try{
                 $directorySeparator = DIRECTORY_SEPARATOR;
                 $storeFolder = '_data';  
@@ -41,13 +43,13 @@ class File{
                 $multimedia->alineamiento ="C";
                 $multimedia->tipo =$fileType;
                 $multimedia->save();
-                sleep(5);
                 
                 self::$response["boolean"]=true;
                 self::$response["message"]='Imagen guardada';
 
             }catch (queryException $e){ self::$response["catch"]=$e; }
         }
+        echo json_encode(self::$response);
 
     }
 

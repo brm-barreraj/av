@@ -29,6 +29,10 @@ class Show{
         views()->display('admin/user/create-user.html');
     }
 
+    function profile(){
+        views()->display('admin/user/profile.html');
+    }
+
     function updateUser(){
         views()->assign("profiles",Profile::get());
         views()->assign("user",User::getByUnique("usuario",self::$request["user"]));

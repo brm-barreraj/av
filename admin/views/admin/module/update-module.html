@@ -7,14 +7,17 @@
 <body>
 	<form id="update-module" method="post" accept-charset="utf-8">
 		<input type="hidden" name="id" id="id" value="{#$module['id'] #}">
+		<label for="name">Digite el nombre</label>
 		<input type="text" name="name" id="name" placeholder="Digite el nombre" value="{#$module['nombre'] #}">
+		<label for="name">Seleccione el estado</label>
 		<select id="state" name="state">
 			  <option value="A" {#if $module['estado']=='A' #}selected{#/if#} >Activo</option>
 			  <option value="I" {#if $module['estado']=='I' #}selected{#/if#} >Inactivo</option>
 		</select>
+		<label for="name">Seleccione si es administrable</label>
 		<select id="administrable" name="administrable">
-			  <option value="Si" {#if $module['administrable']=='Si' #}selected{#/if#} >Si</option>
-			  <option value="No" {#if $module['administrable']=='No' #}selected{#/if#} >No</option>
+			  <option value="S" {#if $module['administrable']=='S' #}selected{#/if#} >Si</option>
+			  <option value="N" {#if $module['administrable']=='N' #}selected{#/if#} >No</option>
 		</select>
 		<button type="button">Editar modulo</button>
 	</form>

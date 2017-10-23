@@ -23,7 +23,7 @@
 				<tr>
 					<td>
 						{#if $file.tipo=="jpeg" || $file.tipo=="jpg" || $file.tipo=="png" || $file.tipo=="gif"#}
-							<img height="80" src="/av/admin/controllers/_data/{#$file.nombreArchivo #}" alt="{#$file.textoAlternativo #}">
+							<img height="80" src="/av/admin/controllers/_data/{#$file.nombreArchivo #}">
 						{#else if $file.tipo=="mp4"#}
 							<object width="150" height="80" data="/controllers/_data/{#$file.nombreArchivo #}"></object>
 						{#/if#}
@@ -41,6 +41,10 @@
 			{#/foreach #}
 		</tbody>
 	</table>
+	<ul>
+		<li><a href="crear-archivo" title="">Crear archivo</a></li>
+		<li><a href="perfil" title="">Volver</a></li>
+	</ul>
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="js/functions.js"></script>
 	<script type="text/javascript" src="js/files.js"></script>

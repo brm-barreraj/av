@@ -57,7 +57,7 @@ class content{
         try{
 
             $content = ContentModel::find(self::$request["id"]);
-            $content->nombre =self::$request["name"];
+            $content->contenido =self::$request["content"];
             $content->save();
 
             self::$response["boolean"]=true;

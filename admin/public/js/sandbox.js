@@ -140,12 +140,38 @@
   window.onload = function() {
     var FIXTURE_TOOLS, IMAGE_FIXTURE_TOOLS, LINK_FIXTURE_TOOLS, editor, req;
     ContentTools.IMAGE_UPLOADER = ImageUploader.createImageUploader;
-    ContentTools.StylePalette.add([new ContentTools.Style('By-line', 'article__by-line', ['p']), new ContentTools.Style('Caption', 'article__caption', ['p']), new ContentTools.Style('Example', 'example', ['pre']), new ContentTools.Style('Example + Good', 'example--good', ['pre']), new ContentTools.Style('Example + Bad', 'example--bad', ['pre'])]);
+    ContentTools.StylePalette.add([new ContentTools.Style('By-line', 'article__by-line', ['p']), 
+      new ContentTools.Style('Caption', 'article__caption', ['p']), 
+      new ContentTools.Style('Example', 'example', ['pre']), 
+      new ContentTools.Style('Example + Good', 'example--good', ['pre']), 
+      new ContentTools.Style('Example + Bad', 'example--bad', ['pre'])]);
+
+function sendform(object) {
+  $.ajax({
+    method: "POST",
+    url: object,
+    dataType: "json",
+        cache: false,
+        async:false,
+    data:$("#"+object).serialize()
+  })
+  .done(function( msg ) {
+    $("#message").html(msg.message);
+  });     
+}
+
+
     editor = ContentTools.EditorApp.get();
+
     editor.init('[data-editable], [data-fixture]', 'data-name');
+
     editor.addEventListener('saved', function(ev) {
+
       var saved;
-      console.log(ev.detail().regions,"sisas");
+
+      document.getElementById("content").value = ev.detail().regions['article'];
+      sendform("update-content");
+
       if (Object.keys(ev.detail().regions).length === 0) {
         return;
       }
@@ -158,9 +184,13 @@
       })(this);
       return setTimeout(saved, 2000);
     });
+
     FIXTURE_TOOLS = [['undo', 'redo', 'remove']];
+
     IMAGE_FIXTURE_TOOLS = [['undo', 'redo', 'image']];
+
     LINK_FIXTURE_TOOLS = [['undo', 'redo', 'link']];
+
     ContentEdit.Root.get().bind('focus', function(element) {
       var tools;
       if (element.isFixed()) {
