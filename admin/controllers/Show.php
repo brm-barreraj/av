@@ -5,6 +5,7 @@ use ControllersAdmin\User as User;
 use ControllersAdmin\File as File;
 use ControllersAdmin\Sign as Sign;
 use ControllersAdmin\Module as Module;
+use ControllersAdmin\Content as Content;
 use Core\Request as Request;
 
 class Show{
@@ -72,10 +73,57 @@ class Show{
         views()->display('admin/module/update-module.html');
     }
 
+    function configurateModule(){
+        
+        //para cada uno de los modulos exitira un html para su repectiva configuración
+        //se ejecuta la función preview del modulo
+        call_user_func( array( "\Modules\\".self::$request["name"]."\\".self::$request['name'].'Module' , 'preview' ) );
+
+        views()->assign("module",self::$request["name"]);
+        views()->display('admin/module/configurate-module.html');
+    }
+
     function modules(){
         views()->assign("modules",Module::get());
         views()->display('admin/module/modules.html');
     }
+
+
+    function createMenu(){
+        views()->display('admin/menu/create-menu.html');
+    }
+
+    function updateMenu(){
+        views()->assign("fhather",self::$request["id"]);
+        views()->display('admin/menu/update-menu.html');
+    }
+
+    function menus(){
+        views()->assign("menus",Menu::getFathers());
+        views()->display('admin/menu/menus.html');
+    }
+
+    function sons(){
+        views()->assign("sons",Menu::getSons());
+        views()->display('admin/menu/sons.html');
+    }
+
+
+    function createContent(){
+        views()->display('admin/content/create-content.html');
+    }
+
+    function updateContent(){
+        views()->assign("content",Content::getByUnique("id",self::$request["id"]));
+        views()->display('admin/content/update-content.html');
+    }
+
+    function contents(){
+        views()->assign("contents",Content::get());
+        views()->display('admin/content/contents.html');
+    }
+
+
 
 }
 ?>

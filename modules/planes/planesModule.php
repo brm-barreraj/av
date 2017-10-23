@@ -31,4 +31,30 @@ class PlanesModule{
 			->toArray()
 		);
 	}
+
+	static function preview(){
+		views()->assign("planes", Plan::where('plan.estado','A')
+				->join('seccion', 'plan.idSeccion', '=', 'seccion.id')
+				->select(
+					"plan.id",
+					"plan.idSeccion",
+					"plan.nombre",
+					"plan.descripcion",
+					"plan.precio",
+					"plan.datos",
+					"plan.descDatos",
+					"plan.voz",
+					"plan.descVoz",
+					"plan.mensajes",
+					"plan.descMensajes",
+					"plan.destacado",
+					"plan.tipoPlan",
+					"plan.vigencia",
+					"seccion.titulo",
+					"seccion.ruta"					
+				)
+				->get()
+				->toArray()
+		);
+	}
 }

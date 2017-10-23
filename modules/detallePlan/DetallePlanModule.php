@@ -10,4 +10,10 @@ class DetallePlanModule{
 		$caracteristicas = CaracteristicasPlanProducto::where('idPlan',$plan->id)->get();
 		views()->assign(compact(['plan','caracteristicas']));
 	}
+
+	static function preview(){
+		$plan = Plan::get()->first();
+		$caracteristicas = CaracteristicasPlanProducto::where('idPlan',$plan->id)->get();
+		views()->assign(compact(['plan','caracteristicas']));
+	}
 }
