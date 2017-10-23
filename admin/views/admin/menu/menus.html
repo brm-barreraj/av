@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es" xml:lang="es" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title></title>
+
+</head>
+<body>
+	<table>
+		<caption>Menus</caption>
+		<thead>
+			<tr> 
+				<th>Nombre</th>
+				<th>Acción</th> 
+			</tr>
+		</thead>
+		<tbody>
+			{#foreach from=$menus item=menu #}
+				<tr>
+					<td>{#$menu.texto #}</td>
+					<td>
+						<button data-id="{#$menu.id #}" class="update-menu">Editar</button>
+						<button data-id="{#$menu.id #}" class="delete-menu">Eliminar</button>
+					</td>
+				</tr>
+			{#/foreach #}
+		</tbody>
+	</table>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="js/functions.js"></script>
+	<script type="text/javascript" src="js/menus.js"></script>
+</body>
+</html>

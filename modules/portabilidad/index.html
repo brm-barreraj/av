@@ -1,0 +1,56 @@
+<div id="message"></div>
+<div id="consulta-portabilidad-main">
+	<h1>Portabilidad</h1>
+	<form id="consulta-portabilidad" method="post" accept-charset="utf-8">
+		<input type="text" name="celphone" id="celphone" placeholder="Numero celular">
+		<button id="consulta-portabilidad" type="button">Hacer portabilidad</button>
+		<button id="estado">Estado</button>
+	</form>
+</div>
+
+<div id="recuerda-nip" style="display: none">
+	<h3>Recuerda el NIP?</h3>
+	<button id="rememberNip">Recuerdo</button>
+	<button id="notRememberNip">No recuerdo</button>
+</div>
+
+<div id="nip" style="display: none">
+	<h1>Solicitud de NIP</h1>
+	<form id="solicitud-nip" method="post" accept-charset="utf-8">
+		<select id="type-document" name="type-document">
+			<option>Tipo de documento</option>
+			<option value="cedula">Cedula</option>
+			<option value="ti">Tarjeta de identidad</option>
+			<option value="cc">Cedula de ciudadania</option>
+		</select>
+		<input type="text" name="document" id="document" placeholder="Cédula">
+		<select id="operator-donon" name="operator-donon">
+			<option>Operador donante</option>
+			<option value="claro">Claro</option>
+			<option value="movistar">Movistar</option>
+			<option value="tigo">Tigo</option>
+		</select>
+		<input type="text" name="celphone" id="celphone" placeholder="Numero celular">
+		<button type="button">Solicita NIP</button>
+	</form>
+</div>
+
+<div id="sim" style="display: none">
+	<h3>Tiene sim card Avantel?</h3>
+	<button id="haveSim">Tiene sim</button>
+	<button id="notHaveSim">No tiene sim</button>
+</div>
+
+<div id="portabilidad-main" style="display: none">
+	<h1>Solicitud de Portabilidad</h1>
+	<form id="portabilidad" method="post" accept-charset="utf-8">
+		<input type="text" name="simcard" id="simcard" placeholder="Numero de sim card">
+		<input type="text" name="celphone" id="celphone" placeholder="Numero celular">
+		<button type="button">Solicita NIP</button>
+	</form>
+</div>
+
+<div id="estado-main" style="display: none">
+	<h3>Numero de Radicación</h3>
+	<p id="numero-radicacion"></p>
+</div>
