@@ -4,22 +4,21 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title></title>
-	<link rel="stylesheet" href="">
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 	{#foreach from=$archivesSeccion item=archive#}
 		{#if $archive['posicion']=='C'#}
-			{#if $archive['tipoArchivo']=='js'#}
-				<script type="text/javascript" src="{#PATH_ROOT#}js/{#$archive['nombreArchivo']#}.{#$archive['tipoArchivo']#}">
+			{#if $archive['tipo']=='js'#}
+				<script type="text/javascript" src="{#PATH_ROOT#}js/{#$archive['nombreArchivo']#}.{#$archive['tipo']#}">
 				</script>
 			{#elseif $archive['tipoArchivo']=='css'#}
-				<link rel="stylesheet" type="text/css" href="{#PATH_ROOT#}/css/{#$archive['nombreArchivo']#}.{#$archive['tipoArchivo']#}">
+				<link rel="stylesheet" type="text/css" href="{#PATH_ROOT#}/css/{#$archive['nombreArchivo']#}.{#$archive['tipo']#}">
 			{#/if#}
 		{#/if#}	
 	{#/foreach#}
 	{#foreach from=$archivesModules item=archive#}
 		{#if $archive['posicion']=='C'#}
-			{#if $archive['tipoArchivo']=='js'#}
-				<script type="text/javascript" src="{#PATH_ROOT#}modules/{#$archive['nombreModulo']#}/{#$archive['nombreArchivo']#}.{#$archive['tipoArchivo']#}">
+			{#if $archive['tipo']=='js'#}
+				<script type="text/javascript" src="{#PATH_ROOT#}js/{#$archive['nombreArchivo']#}.{#$archive['tipo']#}">
 				</script>
 			{#/if#}
 		{#/if#}	
@@ -80,19 +79,19 @@
 
 	{#foreach from=$archivesModules item=archive#}
 		{#if $archive['posicion']=='P'#}
-			{#if $archive['tipoArchivo']=='js'#}
-				<script type="text/javascript" src="{#PATH_ROOT#}modules/{#$archive['nombreModulo']#}/{#$archive['nombreArchivo']#}.{#$archive['tipoArchivo']#}">
+			{#if $archive['tipo']=='js'#}
+				<script type="text/javascript" src="{#PATH_ROOT#}js/{#$archive['nombreArchivo']#}.{#$archive['tipo']#}">
 				</script>
 			{#/if#}
 		{#/if#}	
 	{#/foreach#}
 	{#foreach from=$archivesSeccion item=archive#}
 		{#if $archive['posicion']=='P'#}
-			{#if $archive['tipoArchivo']=='js'#}
-				<script type="text/javascript" src="{#PATH_ROOT#}js/{#$archive['nombreArchivo']#}.{#$archive['tipoArchivo']#}">
+			{#if $archive['tipo']=='js'#}
+				<script type="text/javascript" src="{#PATH_ROOT#}js/{#$archive['nombreArchivo']#}.{#$archive['tipo']#}">
 				</script>
-			{#elseif $archive['tipoArchivo']=='css'#}
-				<link rel="stylesheet" type="text/css" href="{#PATH_ROOT#}/css/{#$archive['nombreArchivo']#}.{#$archive['tipoArchivo']#}">
+			{#elseif $archive['tipo']=='css'#}
+				<link rel="stylesheet" type="text/css" href="{#PATH_ROOT#}/css/{#$archive['nombreArchivo']#}.{#$archive['tipo']#}">
 			{#/if#}
 		{#/if#}	
 	{#/foreach#}

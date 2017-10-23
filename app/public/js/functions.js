@@ -42,3 +42,19 @@ function serializedata($this){
 	});
 	return serialize.slice(0,-1);
 }
+function connectApi(url, type, dataType, form, callback) {
+	var result = null;
+	
+	jQuery.ajax({
+		url:url,
+		type:type,
+		dataType:dataType,
+		data:jQuery(form).serialize(),		
+	})
+	.done(function(data){
+		callback(true,data);
+	})
+	.fail(function(jqXHR){
+		callback(false,jqXHR);
+	});
+}
