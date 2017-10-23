@@ -4,6 +4,8 @@ function sendform(object) {
 		method: "POST",
 		url: object,
 		dataType: "json",
+        cache: false,
+        async:false,
 		data:$("#"+object).serialize()
 	})
 	.done(function( msg ) {
@@ -11,6 +13,7 @@ function sendform(object) {
 	});			
 }
 
+//Funcíon que lee los atributo data de un nodo, tambien puede serializar un fomulario
 function senddata($this,url) {
 	var serialize=serializedata($this);
 	var message;
@@ -18,6 +21,8 @@ function senddata($this,url) {
 		method: "POST",
 		url: url,
 		dataType: "json",
+        cache: false,
+        async:false,
 		data: serialize
 	})
 	.done(function( msg ) {
@@ -29,15 +34,40 @@ function senddata($this,url) {
 function serializedata($this){
 
 	var serialize="";
-	$this.each(function() {
-	  $.each(this.attributes, function(index) {
-	    if(this.specified) {
-	    	if (this.name.match("^data-")) {
-	     		var name=this.name.split("data-");
-	     		serialize+=name[1]+"="+this.value+"&";
-			}
-	    }
-	  });
+
+	if ( $this.is( "form" ) ) {
+		serialize=$this.serialize();
+	}else{
+		$this.each(function() {
+		  $.each(this.attributes, function(index) {
+		    if(this.specified) {
+		    	if (this.name.match("^data-")) {
+		     		var name=this.name.split("data-");
+		     		serialize+=name[1]+"="+this.value+"&";
+				}
+		    }
+		  });
+		});
+		serialize=serialize.slice(0,-1)
+	}
+
+	return serialize;
+}
+
+//Función para obtener datos de una url, se puede tbn enviar los artibutos data- del nodo
+function getdata(object,$this) {
+	var serialize=serializedata($this);
+	var data="";
+	$.ajax({
+		method: "POST",
+		url: object,
+		dataType: "json",
+        cache: false,
+        async:false,
+        data:serialize
+	})
+	.done(function( msg ) {
+		data=msg;
 	});
-	return serialize.slice(0,-1);
+	return data;	
 }
