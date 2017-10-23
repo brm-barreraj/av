@@ -1,6 +1,7 @@
 var nip = true, sim= true;
 
 var load = function(){ 
+	
 	/*
 		Consulta si la linea se puede hacer portable
 	*/
