@@ -53,6 +53,7 @@ $router->match('POST', 'update-menu', 'ControllersAdmin\Menu@update');
 $router->match('POST', 'delete-menu', 'ControllersAdmin\Menu@delete');
 
 $router->match('GET', '/menus', 'ControllersAdmin\Show@menus');
+$router->match('POST', 'tree', 'ControllersAdmin\Menu@createTree');
 
 
 //Rutas crud modulo
@@ -62,9 +63,28 @@ $router->match('POST', 'create-module', 'ControllersAdmin\Module@create');
 $router->match('GET', '/editar-modulo', 'ControllersAdmin\Show@updateModule');
 $router->match('POST', 'update-module', 'ControllersAdmin\Module@update');
 
+$router->match('GET', '/configurar-modulo', 'ControllersAdmin\Show@configurateModule');
+$router->match('POST', 'configurate-module', 'ControllersAdmin\Module@update');
+
 $router->match('POST', 'delete-module', 'ControllersAdmin\Module@delete');
 
 $router->match('GET', '/modulos', 'ControllersAdmin\Show@modules');
+
+
+//Rutas para plan
+$router->match('POST', 'outstanding', 'ControllersAdmin\Plan@outstanding');
+
+
+//Rutas crud contenido
+$router->match('GET', '/crear-contenido', 'ControllersAdmin\Show@createContent');
+$router->match('POST', 'create-content', 'ControllersAdmin\Content@create');
+
+$router->match('GET', '/editar-contenido', 'ControllersAdmin\Show@updateContent');
+$router->match('POST', 'update-content', 'ControllersAdmin\Content@update');
+
+$router->match('POST', 'delete-content', 'ControllersAdmin\Content@delete');
+
+$router->match('GET', '/contenidos', 'ControllersAdmin\Show@contents');
 
 
 ?>
