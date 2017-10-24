@@ -27,7 +27,7 @@ var load = function(){
 	*/
 	var rememberNip = function(){
 		document.getElementById("recuerda-nip").style.display="none";
-		document.getElementById("sim").style.display='block';
+		document.getElementById("validate-nip-main").style.display='block';
 	}
 
 	/*
@@ -36,7 +36,7 @@ var load = function(){
 	var notRememeberNip = function(){
 		document.getElementById("message").innerHTML = "Se ha enviado de nuevo el NIP";
 		document.getElementById("recuerda-nip").style.display="none";
-		document.getElementById("sim").style.display='block';
+		document.getElementById("validate-nip-main").style.display='block';
 	}
 
 	/*
@@ -47,7 +47,7 @@ var load = function(){
 			if(result){				
 				if(sim){
 					document.getElementById("nip").style.display='none';
-					document.getElementById("sim").style.display='block';
+					document.getElementById("validate-nip-main").style.display='block';
 					document.getElementById("message").innerHTML = "Se ha enviado el NIP";
 				}
 			}else{
@@ -57,6 +57,19 @@ var load = function(){
 			}
 		});
 	};
+
+	var validarNip = function(){
+		connectApi('https://jsonplaceholder.typicode.com/posts', 'POST','json',"#validate-nip", function (result, object) {
+			if(result){							
+				document.getElementById("validate-nip-main").style.display='none';
+				document.getElementById("sim").style.display='block';			
+			}else{
+				if(object.status==404) {
+					document.getElementById("message").innerHTML = "La página no existe";
+		    	}
+			}
+		});
+	}
 
 	/*
 		En caso de tener sim card
@@ -92,6 +105,7 @@ var load = function(){
 	document.querySelector("#portabilidad button").addEventListener('click', solicitudPortabilidad);
 	document.querySelector("#rememberNip").addEventListener('click', rememberNip);
 	document.querySelector("#notRememberNip").addEventListener('click', notRememeberNip);
+	document.querySelector("#validate-nip button").addEventListener('click', validarNip);
 };
 
 document.addEventListener("DOMContentLoaded", load, false);
