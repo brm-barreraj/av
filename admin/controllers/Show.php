@@ -11,9 +11,18 @@ use Core\Request as Request;
 class Show{
 
     static private $request;
+    //A estas secciones el usuario puede ingresar sin estar logueado
+    static private $freedomSections=['iniciar-sesion','olvide-mis-datos'];
 
     function __construct(){
         self::$request=Request::get();
+        if ( !in_array( basename($_SERVER['REQUEST_URI']) , self::$freedomSections ) &&  !Sign::isLogged() ) {
+            views()->display('admin/sign/log-in.html');
+            exit();
+        }else if( in_array( basename($_SERVER['REQUEST_URI']) , self::$freedomSections ) && Sign::isLogged()){
+            views()->display('admin/user/profile.html');
+            exit();
+        }
     }
 
     function login(){
@@ -25,8 +34,10 @@ class Show{
     }
 
     function createUser(){
+
         views()->assign("profiles",Profile::get());
         views()->display('admin/user/create-user.html');
+
     }
 
     function profile(){

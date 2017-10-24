@@ -7,13 +7,15 @@ $(document).ready(function(){
 	$(".update-item").on( "click", function(e) {
 		e.preventDefault();
 		var item=$(this).attr("data-id");
-		senddata($("#item-"+item),"update-menu");
+		var response=senddata($("#item-"+item),"update-menu");
+		$("#message").html(response.message);
 	});
 
 	$(".delete-item").on( "click", function(e) {
 		e.preventDefault();
 		var item=$(this).attr("data-id");
-		senddata($("#item-"+item),"delete-menu");
+		var response=senddata($("#item-"+item),"delete-menu");
+		$("#message").html(response.message);
 	});
 	
 	

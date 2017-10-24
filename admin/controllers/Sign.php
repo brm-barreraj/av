@@ -15,7 +15,7 @@ class Sign{
         self::$request=Request::post();
         self::$response["boolean"]=false;
         self::$response["message"]='Intentalo de nuevo';    
-        self::$sessionName='user';    
+        self::$sessionName='user';
     }
 
     public static function logIn(){
@@ -43,10 +43,12 @@ class Sign{
         self::removeCookies();
         session_start();
         session_destroy();
+        header('Location: iniciar-sesion');
+        exit;
     }
 
     public static function isLogged(){
-        return session_id() === '' ? FALSE : TRUE;
+        return self::getUserIdLoggedIn() === NULL ? FALSE : TRUE;
     }
 
     //Crea una session nueva
@@ -63,9 +65,8 @@ class Sign{
             $data["dns"]=$_SERVER['SERVER_NAME'];
             Session::create($data);
         }
-
         //Configuración para iniciar la sesión
-        self::startSession(self::$sessionName, true);
+        self::startSession(self::$sessionName, $secure);
 
         //Cookie encriptada con el id del usuario 
         setcookie(self::$sessionName, $summary, time() + 3600, '/');
@@ -98,8 +99,8 @@ class Sign{
     }
 
     //Función que retorna el id del usuario logueado
-    private static function getUserIdLoggedIn() {
-        $data=explode("~", Secure::decrypt( $_COOKIE[self::$sessionName] ) );
+     private static function getUserIdLoggedIn() {
+        $data=explode("~", Secure::decrypt( $_COOKIE["user"] ) );
         return $data[2];
     }
 
@@ -112,22 +113,21 @@ class Sign{
     public static function forgetData(){
 
         //Envía un correo con los datos de recuperación si el usuario o correo por post existe
-        if ( self::fieldExists("usuario",self::$request["user-or-email"]) || self::fieldExists("correo",self::$request["user-or-email"]) ) {
+        if ( User::fieldExists("usuario",self::$request["user-or-email"]) || User::fieldExists("correo",self::$request["user-or-email"]) ) {
 
             $password=self::randomString(10);
-            $user=User::getByUserOrEmail($request["user-or-email"]);
-            
-            if( User::where('id',$user["id"])->update(['contrasena' => sha1($password)]) && self::sendMailFogertData($user,$password) ){
+            $user=User::getByUserOrEmail(self::$request["user-or-email"]);
+
+            if( User::updatePassword($user["id"],$password) && self::sendMailFogertData($user,$password) ){
                 self::$response["boolean"]=true;
                 self::$response["message"]='Te hemos enviado un correo con los datos de tu cuenta';
-                self::$response["password"]=$password;
             }
 
         //No existen el usuario o correo ingresado por el usuario
         }else{
             self::$response["message"]='No coinciden estos datos, dejanos tu numero de celular y te contactamos';
         }
-       echo json_encode($response);
+       echo json_encode(self::$response);
     }
 
     private static function removeCookies(){
@@ -154,7 +154,7 @@ class Sign{
         $to=$user["correo"];
         $subject="Datos de cuenta avantel";
         $from="contacto@brm.com.co";
-        $template="forget-data-email";
+        $template="sign/forget-data-email";
         $data["email"]=$user["correo"];
         $data["user"]=$user["usuario"];
         $data["password"]=$password;

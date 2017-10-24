@@ -5,13 +5,12 @@ $(document).ready(function(){
 		e.preventDefault();
 		var $td = $(this).parent();
 
-		var fhater = $(this).attr("data-id");
-		var son=fhater+"-"+getcounter(fhater);
+		var key=$(this).attr("data-key")+"-"+getcounter($(this).attr("data-key"));
 
-		addson(fhater);
+		var fhater=addson($(this).attr("data-key"));
 
 		var $td1 = $('<td>', {
-			html: cretateitem(fhater,son)
+			html: cretateitem(key,fhater)
 		});
 
 		var $tbl = $td.children('table')
@@ -28,71 +27,75 @@ $(document).ready(function(){
 		}
 
 	}).on('click', '.remove-item', function(e) {
+
 		e.preventDefault();
-		var fhater = $(this).attr("data-fhater");
-		removeson(fhater);
 	   $(this).parent().remove();
+
+	}).on('click', '.close-item', function(e) {
+		e.preventDefault();
+		addson( $(this).attr("data-key") );
+		//$("#item-"+$(this).attr("data-key")+" :input, #item-"+$(this).attr("data-key")+" :button").attr("disabled", true);
 	});
 
-	$("#button").on( "click", function() {
-
-
-		var arrNumber = new Array();
-		$('input[type=text]').each(function(){
-			var position=$(this).attr("data-position").split("-");
-			var val=$(this).val();
-			position.forEach(function(element) {
-			    console.log(element,"element");
-			    arrNumber[element]=new Array();
-			    arrNumber[element]=val;
-			});
-			var nameposition=$(this).attr("data-name-position");
-			console.log(nameposition,"nameposition");
-			console.log(position,"position");
-		});
-		console.log(arrNumber,"arrNumber");
-
-		//sendform("create-menu");
+	$("#end").on('click', function(e) {
+      	setTimeout(function(){ window.location = "menus"; }, 3000);
 	});
+
+	
+
 })
 
-function addson(fhater){
-	$("#sons-"+fhater).val(getsons(fhater)+1);
-	$("#counter-"+fhater).val(getcounter(fhater)+1);
-}
+function addson(key){
 
-function removeson(fhater){
-	$("#sons-"+fhater).val(getsons(fhater)-1);
-}
-
-function getsons(fhater){
-	return parseInt( $("#sons-"+fhater).val() );
-}
-
-function getcounter(fhater){
-	return parseInt( $("#counter-"+fhater).val());
-}
-
-function cretateitem(fhater,son) {
+	var id;
 	
-	var sons=son.split("-");
-	var position="";
-	for (var i = 0; i < sons.length; i++) {
-		position+="["+sons[i]+"]";
+	if ($("#id-"+key).val()=="null") {
+		var response=senddata( $("#item-"+key) , "create-menu" );
+		$("#id-"+key).val(response.id);
+		id=response.id;
+	}else{
+		id=$("#id-"+key).val();
 	}
 
-    var item='<div id="item-'+son+'"  method="post" accept-charset="utf-8">';
+	$("#counter-"+key).val(getcounter(key)+1);
+
+	return id;
+}
+
+function removeson(key){
+	var response=senddata( $("#item-"+key) , "delete-menu" );
+}
+
+function getsons(key){
+	return parseInt( $("#sons-"+key).val() );
+}
+
+function getcounter(key){
+	return parseInt( $("#counter-"+key).val());
+}
+
+function cretateitem(key,fhater) {
+	
+    var item='<form id="item-'+key+'"  method="post" accept-charset="utf-8">';
     	item+='<fieldset>';
-		item+='<legend>Item '+son+'</legend>';
-		item+='<label for="text">Digite el valor del item  '+son+'</label>';
-		item+='<input type="text" data-position="'+son+'" data-name-position="text" name="text-'+son+'" placeholder="Digite el texto '+son+'"><br>';
-		item+='<label for="link">Digite el enlace del item  '+son+'</label>';
-		item+='<input type="text" data-position="'+son+'" data-name-position="link" name="link-'+son+'" placeholder="Digite la url item '+son+'"><br>';
-		item+='<input type="hidden" name="sons-'+son+'" id="sons-'+son+'" value="0">';
-		item+='<input type="hidden" name="counter-'+son+'" id="counter-'+son+'" value="0">';
-		item+='<button data-id="'+son+'" data-fhater="'+fhater+'" class="remove-item">-</button>'
-		item+='<button data-id="'+son+'" data-fhater="'+fhater+'" class="add-item">+</button>'
+		item+='<legend>'+key+'</legend>';
+
+		item+='<label for="text">Digite el valor</label>';
+		item+='<input type="text" name="text" placeholder="Digite el texto"><br>';
+		
+		item+='<label for="link">Digite el enlace</label>';
+		item+='<input type="text" name="link" placeholder="Digite la url"><br>';
+		
+		item+='<input type="hidden" name="counter-'+key+'" id="counter-'+key+'" value="0">';
+		item+='<input type="hidden" name="fhater" value="'+fhater+'">';
+		item+='<input type="hidden" name="id" id="id-'+key+'" value="null">';
+		
+		item+='<button data-key="'+key+'" class="remove-item" >-</button>'
+		item+='<button data-key="'+key+'" class="add-item">+</button>'
+		item+='<button data-key="'+key+'" class="close-item">✓</button>'
+
 		item+='</fieldset>';
-		item+='</div>';
+		item+='</form>';
+
 	return item;
 }

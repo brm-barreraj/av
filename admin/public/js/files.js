@@ -5,8 +5,11 @@ $(document).ready(function(){
 	});
 
 	$(".delete-file").on( "click", function() {
-		var message=senddata($(this),"delete-file");
-		//window.location = "archivos";
+		var response=senddata($(this),"delete-file");
+		$("#message").html(response.message);
+	    if (response['boolean']) {
+	      setTimeout(function(){ window.location = "archivos"; }, 3000);
+	    }
 	});
 
 })

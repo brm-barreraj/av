@@ -7,23 +7,20 @@
 </head>
 <body>
 
-	<form id="create-menu" method="post" accept-charset="utf-8">
 	<table id="tree-menu" style="width:100%;text-align:center">
 		<tr>
 			<td>
-				<div id="item-0" method="post" accept-charset="utf-8">
+				<form id="item-0" method="post" accept-charset="utf-8">
 					<label for="name">Digite el nombre</label>
-					<input type="text" name="text-0" data-position="0" data-name-position="text" placeholder="Digite el nombre" />
-					<input type="hidden" name="sons-0" id="sons-0" value="0">
-					<input type="hidden" name="fhater-0" value="0">
+					<input type="text" name="text" placeholder="Digite el nombre" />
+					<input type="hidden" name="id" id="id-0" value="null">
 					<input type="hidden" name="counter-0" id="counter-0" value="0">
-					<button class="add-item" data-id="0" >+</button>
-				</div>
+					<button class="add-item" data-key="0" >+</button>
+				</form>
 			</td>
 		</tr>
 	</table>
-	<button id="button" type="button">Crear menu</button>
-	</form>
+	<button id="end" type="button">Finalizar</button>
 
 	<div id="message"></div>
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>

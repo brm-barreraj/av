@@ -6,25 +6,51 @@
 </head>
 <body>
 	<form id="create-user" method="post" accept-charset="utf-8">
-		<input type="text" name="user" id="user" placeholder="Digite el usuario">
+		
+		<label for="user">usuario</label>
+		<input type="text" name="user" id="user" placeholder="Digite el usuario" onkeypress="return letters(event)" >
+		<br>
+
+		<label for="email">Correo</label>
 		<input type="text" name="email" id="email" placeholder="Digite el correo">
-		<input type="text" name="name" id="name" placeholder="Digite el nombre">
-		<input type="text" name="lastname" id="lastname" placeholder="Digite el apellido">
+		<br>
+
+		<label for="name">Nombre</label>
+		<input type="text" name="name" id="name" placeholder="Digite el nombre" onkeypress="return letters(event)"">
+		<br>
+
+		<label for="lastname">Apellido</label>
+		<input type="text" name="lastname" id="lastname" placeholder="Digite el apellido" onkeypress="return letters(event)"">
+		<br>
+
+		<label for="password">Contraseña</label>
 		<input type="password" name="password" id="password" placeholder="Digite las contraseña">
+		<br>
+
+		<label for="profile">Perfil</label>
 		<select name="profile" id="profile">
+			  <option value="default">Perfil</option>
 			{#foreach from=$profiles item=profile #}
 			  <option value="{#$profile.id #}">{#$profile.nombre #}</option>
 			{#/foreach #}
 		</select>
+		<br>
+
+		<label for="state">Estado</label>
 		<select id="state" name="state">
+			  <option value="default">Estado</option>
 			  <option value="A">Activo</option>
 			  <option value="I">Inactivo</option>
 		</select>
+		<br>
+
 		<button type="button">Crear usuario</button>
+
 	</form>
 	<div id="message"></div>
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-	<script type="text/javascript" src="js/functions.js"></script>
+	<script type="text/javascript" src="{#PATH_ROOT#}/core/resources/js/onkeypress.js"></script>
+	<script type="text/javascript" src="{#PATH_ROOT#}/core/resources/js/functions.js"></script>
 	<script type="text/javascript" src="js/create-user.js"></script>
 	</body>
 </html>

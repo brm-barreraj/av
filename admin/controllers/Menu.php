@@ -18,32 +18,21 @@ class Menu{
 
     //función para crear un menu
     public static function create(){
-            printVar(self::$request["text"]);
 
-        foreach (self::$request["text"] as $key => $value) {
-            //var_dump( $value ,"$key");
-        }
-        /*try{
 
-            //Se crea registro del nombre del menu
-            $father = new MenuModel;
-            $father->texto=self::$request["name"];
-            $father->save();
+        try{
 
-            //Se crean los items del menu
-            foreach (self::$request["text"] as $key => $value) {
-                $sons = new MenuModel;
-                $sons->idPadre=$father->id;
-                $sons->texto=self::$request["text"][$key];
-                $sons->enlace =self::$request["link"][$key];
-                $sons->order =self::$request["order"][$key];
-                $sons->save();
-            }
+            $menu = new MenuModel;
+            $menu->texto=self::$request["text"];
+            $menu->idPadre=self::$request["fhater"];
+            $menu->enlace =self::$request["link"];
+            $menu->save();
 
             self::$response["boolean"]=true;
             self::$response["message"]='Registro exitoso';
+            self::$response["id"]=$menu->id;
 
-        }catch (queryException $e){ self::$response["catch"]=$e; }*/
+        }catch (queryException $e){ self::$response["catch"]=$e; }
 
         echo json_encode(self::$response);
 
@@ -58,7 +47,7 @@ class Menu{
             $menu->delete();
 
             self::$response["boolean"]=true;
-            self::$response["message"]='Los datos fueron actulizados';
+            self::$response["message"]='Se elimino el menu';
 
         }catch (queryException $e){ self::$response["catch"]=$e; }
 

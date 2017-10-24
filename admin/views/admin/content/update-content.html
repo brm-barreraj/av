@@ -2,35 +2,66 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>ContentTools sandbox</title>
+        <title></title>
+        <link rel="stylesheet" type="text/css" href="js/vendor/build/content-tools.min.css">
         <style type="text/css" media="screen">
-            .article {
-                max-width: 920px;
+
+            [data-editable]{
+                width: 78%;
+                display: block;
+                margin: 0 auto;
+                font-family: helvetica;
+            }
+
+            /* Center (default) */
+            [data-editable] iframe,
+            [data-editable] image,
+            [data-editable] [data-ce-tag=img],
+            [data-editable] img,
+            [data-editable] video {
+                clear: both;
+                display: block;
                 margin-left: auto;
                 margin-right: auto;
-                padding: 0 10px 2em;
+                max-width: 100%;
             }
-            .article h1 {
-                color: #3c3c3c;
-                font-family: georgia, serif;
-                font-size: 60px;
-                margin-bottom: 0;
+
+            /* Left align */
+            [data-editable] .align-left {
+                clear: initial;
+                float: left;
+                margin-right: 0.5em;
             }
+
+            /* Right align */
+            [data-editable].align-right {
+                clear: initial;
+                float: right;
+                margin-left: 0.5em;
+            }
+
+            /* Alignment styles for text in editable regions */
+            [data-editable] .text-center {
+                text-align: center;
+            }
+
+            [data-editable] .text-left {
+                text-align: left;
+            }
+
+            [data-editable] .text-right {
+                text-align: right;
+            }
+​
         </style>
-        <link rel="stylesheet" type="text/css" href="js/vendor/build/content-tools.min.css">
     </head>
     <body>
-        <article class="article">
-            <div data-editable data-name="article">
-                {#$content['contenido']#}
-            </div>
-        </article>
-        <form id="update-content" method="post" accept-charset="utf-8">
-            <input type="hidden" name="id" value="{#$content['id']#}">
-            <input type="hidden" name="content" id="content">
-        </form>
+        <div data-editable data-name="main-content">
+           {#$content['contenido']#}
+        </div>
+         <input type="hidden" name="id" id="id" value="{#$content['id']#}">
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script type="text/javascript" src="js/vendor/build/content-tools.js"></script>
-        <script type="text/javascript" src="js/sandbox.js"></script>
+        <script type="text/javascript" src="js/update-content.js"></script>
     </body>
 </html>

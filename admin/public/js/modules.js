@@ -10,6 +10,7 @@ $(document).ready(function(){
 
 	$(".delete-module").on( "click", function() {
 		var response=senddata($(this),"delete-module");
+		$("#message").html(response.message);
 		if (response['boolean']) {
       		setTimeout(function(){ window.location = "modulos"; }, 3000);
 		}

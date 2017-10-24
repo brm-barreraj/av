@@ -5,8 +5,12 @@ $(document).ready(function(){
 	});
 
 	$(".delete-content").on( "click", function() {
-		senddata($(this),"delete-content");
-		window.location = "contenidos";
+		var response=senddata($(this),"delete-content");
+		$("#message").html(response.message);
+	    if (response['boolean']) {
+	      setTimeout(function(){ window.location = "contenidos"; }, 3000);
+	    }
+		
 	});
 
 })

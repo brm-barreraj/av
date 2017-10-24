@@ -34,24 +34,6 @@ function senddata($this,url) {
 	return response;
 }
 
-//Funcíon que lee los atributo data de un nodo, tambien puede serializar un fomulario
-function sendstring(url,string) {
-	var serialize=serializedata($this);
-	var response;
-	$.ajax({
-		method: "POST",
-		url: url,
-		dataType: "json",
-        cache: false,
-        async:false,
-		data: {data:string}
-	})
-	.done(function( msg ) {
-		response=msg;
-	});
-	return response;
-}
-
 function serializedata($this){
 
 	var serialize="";

@@ -1,11 +1,11 @@
 <?php
 namespace ControllersAdmin;
 
-use Models\contenidoModel as ContentModel;
+use Models\contenidoModel as SectionModel;
 use Core\Request as Request;
 use Illuminate\Database\QueryException as queryException;
 
-class Content{
+class Section{
 
     static private $response=array(),$request;
 
@@ -19,16 +19,25 @@ class Content{
     //función para crear un contenido
     public static function create(){
 
-        try{
+        if(self::fieldExists("ruta",self::$request["route"])) {
+            self::$response["message"]='La ruta ya existe';
+        }else{
 
-            $content = new ContentModel;
-            $content->nombre =self::$request["name"];
-            $content->save();
+            try{
 
-            self::$response["boolean"]=true;
-            self::$response["message"]='Registro exitoso';
+                $section = new SectionModel;
+                $section->ruta =self::$request["route"];
+                $section->descripcion =self::$request["description"];
+                $section->estado =self::$request["state"];
+                $section->save();
 
-        }catch (queryException $e){ self::$response["catch"]=$e; }
+                self::$response["boolean"]=true;
+                self::$response["message"]='Registro exitoso';
+
+            }catch (queryException $e){ self::$response["catch"]=$e; }
+
+        }
+
 
         echo json_encode(self::$response);
 
@@ -38,12 +47,12 @@ class Content{
     public static function delete(){
 
         try{
-            
-            $content = ContentModel::find(self::$request["id"]);
-            $content->delete();
+
+            $section = SectionModel::find(self::$request["id"]);
+            $section->delete();
 
             self::$response["boolean"]=true;
-            self::$response["message"]='Se elimino el contenido';
+            self::$response["message"]='Los datos fueron actulizados';
 
         }catch (queryException $e){ self::$response["catch"]=$e; }
 
@@ -55,10 +64,10 @@ class Content{
     public static function update(){
 
         try{
-            
-            $content = ContentModel::find(self::$request["id"]);
-            $content->contenido =self::$request["main-content"];
-            $content->save();
+
+            $section = SectionModel::find(self::$request["id"]);
+            $section->contenido =self::$request["section"];
+            $section->save();
 
             self::$response["boolean"]=true;
             self::$response["message"]='Los datos fueron actulizados';
@@ -71,21 +80,21 @@ class Content{
 
     //Retorna todos los contenidos
     public static function get(){
-        $contents = ContentModel::get();
-        $contents=(count($contents)==0) ? NULL : $contents->toArray();
-        return $contents;   
+        $sections = SectionModel::get();
+        $sections=(count($sections)==0) ? NULL : $sections->toArray();
+        return $sections;   
     }
 
     //Retorna un campo o un registro completo, según un campo que tenga atributo unique en la base de datos
     public static function getByUnique($field,$unique){
-        $content=ContentModel::where($field,$unique)->first();
-        $content=(count($content)==0) ? NULL : $content->toArray();
-        return $content;   
+        $section=SectionModel::where($field,$unique)->first();
+        $section=(count($section)==0) ? NULL : $section->toArray();
+        return $section;   
     }
 
     //Retorna una repuesta positiva si existe el campo
     public static function fieldExists($field,$value){
-        return (empty(ContentModel::where($field, $value)->pluck($field)->toArray())) ? false:true;
+        return (empty(SectionModel::where($field, $value)->pluck($field)->toArray())) ? false:true;
     }
 }
 ?>

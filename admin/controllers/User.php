@@ -57,7 +57,7 @@ class User{
             $user->save();
 
             self::$response["boolean"]=true;
-            self::$response["message"]='Los datos fueron actulizados';
+            self::$response["message"]='El usuario ya no esta activo';
 
         }catch (queryException $e){ self::$response["catch"]=$e; }
 
@@ -68,23 +68,30 @@ class User{
     //función para editar un usuario
     public static function update(){
 
-        try{
 
-            $user = UserModel::find(self::$request["id"]);
-            $user->idPerfil=self::$request["profile"];
-            $user->estado=self::$request["state"];
-            $user->correo =self::$request["email"];
-            $user->nombre =self::$request["name"];
-            $user->apellido =self::$request["lastname"];
-            $user->save();
+            try{
 
-            self::$response["boolean"]=true;
-            self::$response["message"]='Los datos fueron actulizados';
+                $user = UserModel::find(self::$request["id"]);
+                $user->idPerfil=self::$request["profile"];
+                $user->estado=self::$request["state"];
+                $user->correo =self::$request["email"];
+                $user->nombre =self::$request["name"];
+                $user->apellido =self::$request["lastname"];
+                $user->save();
 
-        }catch (queryException $e){ self::$response["catch"]=$e; }
+                self::$response["boolean"]=true;
+                self::$response["message"]='Los datos fueron actulizados';
 
+            }catch (queryException $e){ self::$response["catch"]=$e; }
+            
         echo json_encode(self::$response);
 
+    }
+
+
+    //función para editar un usuario
+    public static function updatePassword($id,$password){
+        return( UserModel::where('id',$id)->update(['contrasena' => sha1($password)]));
     }
 
     //Retorna todos los usuarios
@@ -93,7 +100,7 @@ class User{
             UserModel::join('perfil', 'usuario.idPerfil', '=', 'perfil.id')
             ->select('usuario.*', 'perfil.nombre as perfil')
             ->get();
-        $users=empty($users) ? $users : $users->toArray();
+        $users=(count($users)==0) ? NULL : $users->toArray();
         return $users;   
     }
 
@@ -101,14 +108,14 @@ class User{
     //Retorna un campo o un registro completo, según un campo que tenga atributo unique en la base de datos
     public static function getByUnique($field,$unique){
         $user=UserModel::where($field,$unique)->first();
-        $user=empty($user) ? $user : $user->toArray();
+        $user=(count($user)==0) ? NULL : $user->toArray();
         return $user;   
     }
 
     //Retorna un registro de la base de datos según el usuario o el correo
     public static function getByUserOrEmail($value){
         $user=UserModel::where("usuario", $value )->orWhere("correo",$value)->first();
-        $user=empty($user) ? $user : $user->toArray();
+        $user=(count($user)==0) ? NULL : $user->toArray();
         return $user;   
     }
 

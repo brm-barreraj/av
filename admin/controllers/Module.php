@@ -46,7 +46,7 @@ class Module{
             $module->save();
 
             self::$response["boolean"]=true;
-            self::$response["message"]='Los datos fueron actulizados';
+            self::$response["message"]='Se elimino el modulo';
 
         }catch (queryException $e){ self::$response["catch"]=$e; }
 

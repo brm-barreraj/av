@@ -1,3 +1,3 @@
 <?php 
-	define('PATH_ROOT','/cmsAvantel/av/');
+	define('PATH_ROOT','/av/');
 ?>
