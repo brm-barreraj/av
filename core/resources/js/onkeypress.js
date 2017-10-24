@@ -65,11 +65,11 @@ jQuery(document).ready(function() {
 });
 
 function showerrors(form){
-
+    var container,message;
 	if (form.find(".form-error").length==0) {
-		var contenedor = $( "<div>", { class: "form-error", html: $( "<p>" )});
-		form.append(contenedor);
-		var mensaje = contenedor.find("p");
+		container = $( "<div>", { class: "form-error", html: $( "<p>" )});
+		form.append(container);
+		message = container.find("p");
 	}
 
     jQuery.validator.setDefaults({
@@ -81,9 +81,9 @@ function showerrors(form){
             });
             var focussed = document.activeElement;
             if (focussed && jQuery(focussed).is("input, textarea, select")) {
-                mensaje.html('');
+                message.html('');
             }
-            contenedor.hide();
+            container.hide();
             if (focussed && jQuery(focussed).is("input, textarea, select")) {
                 this.currentElements.removeAttr("title").removeClass("error");
             }else{
@@ -98,22 +98,25 @@ function showerrors(form){
             });
             if (focussed && jQuery(focussed).is("input, textarea, select")) {
                 if(jQuery(focussed).hasClass('error')){
-                        contenedor.show();
+                        container.show();
                 }
-                mensaje.html(jQuery(focussed).attr("title"));
+                message.html(jQuery(focussed).attr("title"));
             }
         }
     });
 }
 
 function showmessage(form,response){
-
+    var container,message;
     if (form.find(".form-error").length==0) {
-        var container = $( "<div>", { class: "form-error", html: $( "<p>" )});
+        container = jQuery( "<div>", { class: "form-error", html: $( "<p>" )});
         form.append(container);
-        var message = container.find("p");
+        message = container.find("p");
+    }else{
+        message = form.find(".form-error").find("p");
     }
     message.html(response["message"]);
+    container.show();
 }
 
 
