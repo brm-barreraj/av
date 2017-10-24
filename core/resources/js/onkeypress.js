@@ -113,6 +113,7 @@ function showmessage(form,response){
         form.append(container);
         message = container.find("p");
     }else{
+        container = form.find(".form-error");
         message = form.find(".form-error").find("p");
     }
     message.html(response["message"]);
