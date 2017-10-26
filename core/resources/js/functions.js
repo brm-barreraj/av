@@ -51,7 +51,7 @@ function  sendarray(array,url){
 
 
 //Función para obtener datos de una url, se puede tbn enviar los artibutos data- del nodo
-function getdata(object,$this) {
+function getdata(object,$this="") {
 	var serialize=serializedata($this);
 	var response;
 	jQuery.ajax({

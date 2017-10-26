@@ -2,8 +2,7 @@
 <html>
 <head>
 	<title></title>
-	<style type="text/css" media="screen">
-	</style>
+	<link href="css/main.css" type="text/css" rel="stylesheet" />
 </head>
 <body>
 
@@ -23,8 +22,17 @@
 	<button id="end" type="button">Finalizar</button>
 
 	<div id="message"></div>
+
+	<div id="files-modal">
+		
+	</div>
+
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-	<script type="text/javascript" src="js/functions.js"></script>
+
+	<script type="text/javascript" src="{#PATH_ROOT#}/core/resources/js/vendor/jquery-validate.min.js"></script>
+	<script type="text/javascript" src="{#PATH_ROOT#}/core/resources/js/onkeypress.js"></script>
+	<script type="text/javascript" src="{#PATH_ROOT#}/core/resources/js/functions.js"></script>
 	<script type="text/javascript" src="js/create-menu.js"></script>
+	<script type="text/javascript" src="js/files-modal.js"></script>
 	</body>
 </html>

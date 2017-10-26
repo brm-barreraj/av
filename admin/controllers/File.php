@@ -18,10 +18,7 @@ class File{
 
     //función para crear un archivo multimedia
     public static function create(){
-        echo "string";
         if (!empty($_FILES)) {
-            echo "string";
-            printVar($_FILES);
             try{
                 $directorySeparator = DIRECTORY_SEPARATOR;
                 $storeFolder = '_data';  
@@ -46,6 +43,9 @@ class File{
                 
                 self::$response["boolean"]=true;
                 self::$response["message"]='Imagen guardada';
+                self::$response["size"]=getimagesize($targetFile);
+                self::$response["url"]="/av/admin/controllers/_data/".$fileName;
+                ;
 
             }catch (queryException $e){ self::$response["catch"]=$e; }
         }
@@ -95,7 +95,7 @@ class File{
 
     //Retorna todos los archivos multimedia
     public static function get(){
-        $files = FileModel::get();
+        $files = FileModel::get()->whereIn('tipo',['jpg','png','jpeg','gif','svg']);
         $files=empty($files) ? $files : $files->toArray();
         return $files;   
     }

@@ -4,22 +4,19 @@ window.addEventListener('load', function() {
 });
 
 editor = ContentTools.EditorApp.get();
+ContentTools.IMAGE_UPLOADER = imageUploader;
 editor.init('*[data-editable]', 'data-name');
-
 
 editor.addEventListener('saved', function (ev) {
     var name, payload, regions, xhr;
 
-    // Check that something changed
     regions = ev.detail().regions;
     if (Object.keys(regions).length == 0) {
         return;
     }
 
-    // Set the editor as busy while we save our changes
     this.busy(true);
 
-    // Collect the contents of each region into a FormData instance
     payload = new FormData();
     for (name in regions) {
         if (regions.hasOwnProperty(name)) {
@@ -28,16 +25,12 @@ editor.addEventListener('saved', function (ev) {
     }
     payload.append("id", document.getElementById("id").value);
 
-    // Send the update content to the server to be saved
     function onStateChange(ev) {
-        // Check if the request is finished
         if (ev.target.readyState == 4) {
             editor.busy(false);
             if (ev.target.status == '200') {
-                // Save was successful, notify the user with a flash
                 new ContentTools.FlashUI('ok');
             } else {
-                // Save failed, notify the user with a flash
                 new ContentTools.FlashUI('no');
             }
         }
@@ -49,7 +42,70 @@ editor.addEventListener('saved', function (ev) {
     xhr.send(payload);
 });
 
+function imageUploader(dialog) {
+     var image, xhr, xhrComplete, xhrProgress,response;
 
+    dialog.addEventListener('imageuploader.cancelupload', function () {
+
+        if (xhr) {
+            xhr.upload.removeEventListener('progress', xhrProgress);
+            xhr.removeEventListener('readystatechange', xhrComplete);
+            xhr.abort();
+        }
+
+        dialog.state('empty');
+    });
+
+    dialog.addEventListener('imageuploader.clear', function () {
+        dialog.clear();
+        image = null;
+    });
+
+    dialog.addEventListener('imageuploader.save', function () {
+        console.log(response);
+        dialog.save(response.url, response.size);
+    });
+
+    dialog.addEventListener('imageuploader.fileready', function (ev) {
+
+        var formData;
+        var file = ev.detail().file;
+
+        xhrProgress = function (ev) {
+            dialog.progress((ev.loaded / ev.total) * 100);
+        }
+
+        xhrComplete = function (ev) {
+
+            if (ev.target.readyState != 4) {
+                return;
+            }
+
+            xhr = null
+            xhrProgress = null
+            xhrComplete = null
+
+            if (parseInt(ev.target.status) == 200) {
+                response = JSON.parse(ev.target.responseText);
+                dialog.populate(response.url, response.size);
+            } else {
+                new ContentTools.FlashUI('no');
+            }
+        }
+
+        dialog.state('uploading');
+        dialog.progress(0);
+
+        formData = new FormData();
+        formData.append('file', file);
+        formData.append("id", document.getElementById("id").value);
+        xhr = new XMLHttpRequest();
+        xhr.upload.addEventListener('progress', xhrProgress);
+        xhr.addEventListener('readystatechange', xhrComplete);
+        xhr.open('POST', '/av/admin/create-file', true);
+        xhr.send(formData);
+    });
+}
 
 
 

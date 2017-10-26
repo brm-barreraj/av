@@ -18,7 +18,6 @@ $router->match('GET', '/olvide-mis-datos', 'ControllersAdmin\Show@forgetData');
 $router->match('POST', 'forget-data', 'ControllersAdmin\Sign@forgetData');
 
 //Rutas crud usuario
-
 $router->match('GET', '/perfil', 'ControllersAdmin\Show@profile');
 
 $router->match('GET', '/crear-usuario', 'ControllersAdmin\Show@createUser');
@@ -42,6 +41,7 @@ $router->match('POST', 'update-file', 'ControllersAdmin\File@update');
 $router->match('POST', 'delete-file', 'ControllersAdmin\File@delete');
 
 $router->match('GET', '/archivos', 'ControllersAdmin\Show@files');
+$router->match('POST', 'get-files', 'ControllersAdmin\File@get');
 
 
 //Rutas crud menu
