@@ -111,7 +111,7 @@ class Seccion{
     }
 
     //Llama procedimiento almacenado
-    private static function CallRaw($procName, $parameters = null, $isExecute = false){
+    public static function CallRaw($procName, $parameters = null, $isExecute = false){
         $syntax = '';
         for ($i = 0; $i < count($parameters); $i++) {
             $syntax .= (!empty($syntax) ? ',' : '') . '?';
@@ -141,5 +141,21 @@ class Seccion{
         if (1 === count($results)) return $results[0];
         return $results;
     }
+
+    public static function CallProcedure($name,$parameter)
+    {
+        $syntax = 'CALL ' . $name . '(' . $parameter . ');';
+        $pdo = Capsule::connection()->getPdo();
+        $pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, true);
+        $stmt = $pdo->prepare($syntax,[]);
+        $exec = $stmt->execute();
+        if (!$exec) return $pdo->errorInfo();
+        $results[] = $stmt->fetchAll(\PDO::FETCH_OBJ);
+        if (1 === count($results)) return $results[0];
+        return $results;
+    }
+
+
+
 }
 

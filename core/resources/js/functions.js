@@ -28,6 +28,24 @@ function senddata($this,url) {
         async:false,
 		data: serialize
 	}).done(function( reply ) { response=reply; });
+    jQuery("#message").html(response.message);
+	return response;
+}
+
+//Funcíon para enviar un array, en php lo obtenemos en la posición data
+function  sendarray(array,url){
+	var serialize=JSON.stringify( array );
+	serialize=JSON.parse(serialize);
+	console.log(serialize);
+	var response;
+	jQuery.ajax({
+		method: "POST",
+		url: url,
+		dataType: "json",
+        cache: false,
+        async:false,
+		data: {data:serialize}
+	}).done(function( reply ) { response=reply; });
 	return response;
 }
 

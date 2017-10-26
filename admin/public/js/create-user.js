@@ -15,7 +15,7 @@ createuser = function() {
   form.validate({
     rules: {
       user: {
-        minlength: 4
+        required: true
       },
       email: {
         email: true
@@ -35,16 +35,16 @@ createuser = function() {
     },
     messages: {
       user: {
-        minlength: 'El usurio no puede ser menor de 4 carateres'
+        required: 'Digite el usuario'
       },
       email: {
         email: 'Correo electr&oacute;nico erroneo (ejemplo@dominio.com).'
       },
       name: {
-        minlength: 'Digite el nombre'
+        required: 'Digite el nombre'
       },
       lastname: {
-        minlength: 'Digite el apellido'
+        required: 'Digite el apellido'
       },
       profile: {
         valueNotEquals: 'Seleccione el perfil'

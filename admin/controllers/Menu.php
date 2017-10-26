@@ -75,39 +75,7 @@ class Menu{
         
     }
 
-    /*public static function createTree(){
-        $father=self::getByUnique("id",self::$request["id"]);
-
-        $tree  = "[{";
-        $tree .= "description: '".$father['texto']."',";
-        $tree .= "children: [";
-        $tree .= self::tree(self::$request["id"]);
-        $tree .= "]}]";
-        header('Content-Type: application/json');
-        echo json_encode($tree);
-    }
-
-    private static function tree($idFather){
-        $sons=self::getSons($idFather);
-        $tree="";
-        if(!empty( $sons ))
-        {
-            foreach ($sons as $key => $value) {
-                $tree .= "{description: '".$value["texto"]."',";
-                if (self::getSons($value["id"])!=NULL) {
-                    $tree .= "children: [";
-                    $tree .= self::tree($value["id"]);
-                    $tree .= "]},";
-                }else{
-                    $tree .= "children: []},";
-                }
-         
-            }
-        }
-
-        return substr($tree, 0, -1);
-    }*/
-
+    //Función para listar un menu en arbol
     public static function createTree(){
         
         $father=self::getByUnique("id",self::$request["id"]);
@@ -122,6 +90,7 @@ class Menu{
         echo json_encode($tree);
     }
 
+    //Función recursica de la creación del arbol
     private static function tree($idFather){
         $tree= array();
         if(!empty( self::getSons($idFather) ))

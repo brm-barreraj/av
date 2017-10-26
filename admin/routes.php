@@ -1,7 +1,7 @@
 <?php
 
-//ini_set("display_errors", 1);
-//error_reporting(E_ALL ^ E_DEPRECATED);
+ini_set("display_errors", 1);
+error_reporting(E_ALL ^ E_DEPRECATED);
 
 // Custom 404 Handler
 $router->set404(function () {
@@ -87,5 +87,24 @@ $router->match('POST', 'delete-content', 'ControllersAdmin\Content@delete');
 
 $router->match('GET', '/contenidos', 'ControllersAdmin\Show@contents');
 
+
+//Rutas crud sección
+$router->match('GET', '/crear-seccion', 'ControllersAdmin\Show@createSection');
+$router->match('POST', 'create-section', 'ControllersAdmin\Section@create');
+
+$router->match('GET', '/editar-seccion', 'ControllersAdmin\Show@updateSection');
+$router->match('POST', 'update-section', 'ControllersAdmin\Section@update');
+
+$router->match('GET', '/configurar-seccion', 'ControllersAdmin\Show@configurateSection');
+$router->match('POST', 'configurate-section', 'ControllersAdmin\Section@configurate');
+
+$router->match('POST', 'delete-section', 'ControllersAdmin\Section@delete');
+
+$router->match('GET', '/secciones', 'ControllersAdmin\Show@sections');
+
+//Rutas crud components
+$router->match('POST', 'create-component', 'ControllersAdmin\Component@create');
+$router->match('POST', 'update-component', 'ControllersAdmin\Component@update');
+$router->match('POST', 'delete-component', 'ControllersAdmin\Component@delete');
 
 ?>

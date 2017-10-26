@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+</head>
+<body>
+	<form id="update-section" method="post" accept-charset="utf-8">
+		<input type="hidden" name="id" id="id" value="{#$section['id'] #}">
+		<input type="hidden" name="route-original" id="route-original" value="{#$section['ruta'] #}">
+
+		<label for="route">Ruta</label>
+		<input type="text" name="route" id="route" placeholder="Digite la ruta" onkeypress="return letters(event)" value="{#$section['ruta'] #}">
+		<br>
+
+		<label for="title">Titulo</label>
+		<input type="text" name="title" id="title" placeholder="Digite el titulo" onkeypress="return letters(event)" value="{#$section['titulo'] #}">
+		<br>
+
+		<label for="description">Descripción</label>
+		<input type="text" name="description" id="description" placeholder="Digita la descripción" onkeypress="return numbersletters(event)" value="{#$section['descripcion'] #}">
+		<br>
+
+		<select id="state" name="state">
+			  <option value="A" {#if $section['estado']=='A' #} selected="selected" {#/if#}">Activo</option>
+			  <option value="I" {#if $section['estado']=='I' #} selected="selected" {#/if#}>Inactivo</option>
+		</select>
+		<br>
+
+		<button type="button">Ediatr sección</button>
+	</form>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="{#PATH_ROOT#}/core/resources/js/vendor/jquery-validate.min.js"></script>
+	<script type="text/javascript" src="{#PATH_ROOT#}/core/resources/js/onkeypress.js"></script>
+	<script type="text/javascript" src="{#PATH_ROOT#}/core/resources/js/functions.js"></script>
+	<script type="text/javascript" src="js/section.js"></script>	
+</body>
+</html>

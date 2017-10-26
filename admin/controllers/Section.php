@@ -1,8 +1,9 @@
 <?php
 namespace ControllersAdmin;
 
-use Models\contenidoModel as SectionModel;
+use Models\seccionModel as SectionModel;
 use Core\Request as Request;
+use Core\Seccion as Seccion;
 use Illuminate\Database\QueryException as queryException;
 
 class Section{
@@ -16,17 +17,17 @@ class Section{
         self::$response["catch"]='';       
     }
 
-    //función para crear un contenido
+    //función para crear un seccion
     public static function create(){
 
         if(self::fieldExists("ruta",self::$request["route"])) {
             self::$response["message"]='La ruta ya existe';
         }else{
-
             try{
 
                 $section = new SectionModel;
                 $section->ruta =self::$request["route"];
+                $section->titulo =self::$request["title"];
                 $section->descripcion =self::$request["description"];
                 $section->estado =self::$request["state"];
                 $section->save();
@@ -35,15 +36,13 @@ class Section{
                 self::$response["message"]='Registro exitoso';
 
             }catch (queryException $e){ self::$response["catch"]=$e; }
-
         }
-
 
         echo json_encode(self::$response);
 
     }
 
-    //función para eliminar un contenido
+    //función para eliminar un seccion
     public static function delete(){
 
         try{
@@ -60,25 +59,39 @@ class Section{
 
     }
 
-    //función para editar un contenido
+    //función para editar un seccion
     public static function update(){
 
-        try{
+        if( self::fieldExists("ruta",self::$request["route"]) && self::$request["route-original"]!=self::$request["route"] ) {
+            self::$response["message"]='La ruta ya existe';
+        }else{
 
-            $section = SectionModel::find(self::$request["id"]);
-            $section->contenido =self::$request["section"];
-            $section->save();
+            try{
 
-            self::$response["boolean"]=true;
-            self::$response["message"]='Los datos fueron actulizados';
+                $section = SectionModel::find(self::$request["id"]);
+                $section->ruta =self::$request["route"];
+                $section->titulo =self::$request["title"];
+                $section->descripcion =self::$request["description"];
+                $section->estado =self::$request["state"];
+                $section->save();
 
-        }catch (queryException $e){ self::$response["catch"]=$e; }
+                self::$response["boolean"]=true;
+                self::$response["message"]='Los datos fueron actulizados';
+
+            }catch (queryException $e){ self::$response["catch"]=$e; }
+
+        }
 
         echo json_encode(self::$response);
 
     }
 
-    //Retorna todos los contenidos
+    //Retorna lso componentes de una sección
+    public static function getComponents($id){
+        return Seccion::CallProcedure('components',$id);
+    }
+
+    //Retorna todos los secciones
     public static function get(){
         $sections = SectionModel::get();
         $sections=(count($sections)==0) ? NULL : $sections->toArray();

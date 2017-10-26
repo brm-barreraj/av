@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+</head>
+<body>
+	<form id="create-section" method="post" accept-charset="utf-8">
+		
+		<label for="route">Ruta</label>
+		<input type="text" name="route" id="route" placeholder="Digite la ruta" onkeypress="return letters(event)" >
+		<br>
+
+		<label for="title">Título</label>
+		<input type="text" name="title" id="title" placeholder="Digite el título" onkeypress="return letters(event)">
+		<br>
+
+		<label for="description">Descripción</label>
+		<input type="text" name="description" id="description" placeholder="Digita la descripción" onkeypress="return numbersletters(event)"">
+		<br>
+
+		<label for="state">Estado</label>
+		<select id="state" name="state">
+			  <option value="default">Estado</option>
+			  <option value="A">Activo</option>
+			  <option value="I">Inactivo</option>
+		</select>
+		<br>
+
+		<button type="button">Crear sección</button>
+
+	</form>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="{#PATH_ROOT#}/core/resources/js/vendor/jquery-validate.min.js"></script>
+	<script type="text/javascript" src="{#PATH_ROOT#}/core/resources/js/onkeypress.js"></script>
+	<script type="text/javascript" src="{#PATH_ROOT#}/core/resources/js/functions.js"></script>
+	<script type="text/javascript" src="js/section.js"></script>
+	</body>
+</html>

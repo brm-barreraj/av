@@ -24,6 +24,8 @@ do
             \tclass $nameModel extends \Illuminate\Database\\\Eloquent\Model {\n
             \t\tprotected \$table = '$tableWithoutPre';\n
             \t\tpublic \$timestamps = false;\n
+            \t\tprotected \$guarded = array('guarded_field');\n
+
         \t}\n
         ?>"
         echo -e $file > "models/$nameModel.php"

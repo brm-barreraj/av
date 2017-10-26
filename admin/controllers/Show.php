@@ -6,6 +6,7 @@ use ControllersAdmin\File as File;
 use ControllersAdmin\Sign as Sign;
 use ControllersAdmin\Module as Module;
 use ControllersAdmin\Content as Content;
+use ControllersAdmin\Section as Section;
 use Core\Request as Request;
 
 class Show{
@@ -34,10 +35,8 @@ class Show{
     }
 
     function createUser(){
-
         views()->assign("profiles",Profile::get());
         views()->display('admin/user/create-user.html');
-
     }
 
     function profile(){
@@ -71,7 +70,6 @@ class Show{
 
 
     function createModule(){
-
         //Se leen las carpetas que esta en el directorio de modulos, esto para evitar que se creen modulos que no existen
         $dirs = array_filter(glob('modules/*'), 'is_dir');
         $modules=array();
@@ -89,7 +87,6 @@ class Show{
     }
 
     function configurateModule(){
-        
         //para cada uno de los modulos exitira un html para su repectiva configuración
         //se ejecuta la función preview del modulo
         call_user_func( array( "\Modules\\".self::$request["name"]."\\".self::$request['name'].'Module' , 'preview' ) );
@@ -102,7 +99,6 @@ class Show{
         views()->assign("modules",Module::get());
         views()->display('admin/module/modules.html');
     }
-
 
     function createMenu(){
         views()->display('admin/menu/create-menu.html');
@@ -123,7 +119,6 @@ class Show{
         views()->display('admin/menu/sons.html');
     }
 
-
     function createContent(){
         views()->display('admin/content/create-content.html');
     }
@@ -138,7 +133,29 @@ class Show{
         views()->display('admin/content/contents.html');
     }
 
+    function createSection(){
+        views()->display('admin/section/create-section.html');
+    }
 
+    function updateSection(){
+        views()->assign("section",Section::getByUnique("id",self::$request["id"]));
+        views()->display('admin/Section/update-section.html');
+    }
+
+    function configurateSection(){
+        views()->assign("menus",Menu::getFathers());
+        views()->assign("contents",Content::get());
+        views()->assign("modules",Module::get());
+        views()->assign("section",self::$request["id"]);
+
+        views()->assign("components",Section::getComponents(self::$request["id"]));
+        views()->display('admin/Section/configurate-section.html');
+    }
+
+    function sections(){
+            views()->assign("sections",Section::get());
+        views()->display('admin/section/sections.html');
+    }
 
 }
 ?>

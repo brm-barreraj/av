@@ -41,9 +41,7 @@ $(document).ready(function(){
       	setTimeout(function(){ window.location = "menus"; }, 3000);
 	});
 
-	
-
-})
+});
 
 function addson(key){
 
@@ -63,11 +61,9 @@ function addson(key){
 }
 
 function removeson(key){
-	var response=senddata( $("#item-"+key) , "delete-menu" );
-}
-
-function getsons(key){
-	return parseInt( $("#sons-"+key).val() );
+	if ($("#id-"+key).val()=="null") {
+		senddata( $("#item-"+key) , "delete-menu" );
+	}
 }
 
 function getcounter(key){

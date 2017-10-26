@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es" xml:lang="es" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title></title>
+
+</head>
+<body>
+	<div id="message"></div>
+	<table>
+		<caption>Secciones</caption>
+		<thead>
+			<tr> 
+				<th>Ruta</th>
+				<th>Título</th>
+				<th>Estado</th> 
+				<th>Acción</th> 
+			</tr>
+		</thead>
+		<tbody>
+			{#foreach from=$sections item=section #}
+				<tr>
+					<td>{#$section.ruta #}</td>
+					<td>{#$section.titulo #}</td>
+					<td>{#$section.estado #}</td>
+					<td>
+						<button data-id="{#$section.id #}" class="update-section">Editar</button>
+						<button data-id="{#$section.id #}" class="configurate-section">Configurar</button>
+						<button data-id="{#$section.id #}" class="delete-section">Eliminar</button>
+					</td>
+				</tr>
+			{#/foreach #}
+		</tbody>
+	</table>
+	<ul>
+		<li><a href="crear-seccion" title="">Crear sección</a></li>
+		<li><a href="perfil" title="">Volver</a></li>
+	</ul>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="{#PATH_ROOT#}/core/resources/js/functions.js"></script>
+	<script type="text/javascript" src="js/section.js"></script>
+</body>
+</html>

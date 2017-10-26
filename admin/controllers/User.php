@@ -68,6 +68,11 @@ class User{
     //función para editar un usuario
     public static function update(){
 
+        if (self::fieldExists("usuario",self::$request["user"]) && self::$request["user-original"]!=self::$request["user"]) {
+            self::$response["message"]='El usuario ya existe';
+        }else if(self::fieldExists("correo",self::$request["email"]) && self::$request["email-original"]!=self::$request["email"]) {
+            self::$response["message"]='El correo ya existe';
+        }else{
 
             try{
 
@@ -83,6 +88,7 @@ class User{
                 self::$response["message"]='Los datos fueron actulizados';
 
             }catch (queryException $e){ self::$response["catch"]=$e; }
+        }
             
         echo json_encode(self::$response);
 

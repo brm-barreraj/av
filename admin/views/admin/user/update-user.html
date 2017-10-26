@@ -6,22 +6,25 @@
 </head>
 <body>
 	<form id="update-user" method="post" accept-charset="utf-8">
+
 		<input type="hidden" name="id" id="id" value="{#$user['id'] #}">
+		<input type="text" name="email-original" id="email-original" value="{#$user['correo'] #}">
+		<input type="text" name="name-original" id="name-original" value="{#$user['nombre'] #}">
+
 		<input type="text" name="name" id="name" placeholder="Digite su nombre" value="{#$user['nombre'] #}">
 		<input type="text" name="lastname" id="lastname" placeholder="Digite su apellido" value="{#$user['apellido'] #}">
 		<input type="text" name="email" id="email" placeholder="Digite su correo" value="{#$user['correo'] #}">
 		<select id="profile" name="profile">
 			{#foreach from=$profiles item=profile #}
-			  <option value="{#$profile.id #}" selected="{#if $user['perfil']==$profile.nombre #}true{#else#}false{#/if#}">{#$profile.nombre #}</option>
+			  <option value="{#$profile.id #}" {#if $section['perfil']==$profile.nombre #} selected="selected"{#/if#} >{#$profile.nombre #}</option>
 			{#/foreach #}
 		</select>
 		<select id="state" name="state">
-			  <option value="A" selected="{#if $user['estado']=='A' #}true{#else#}false{#/if#}">Activo</option>
-			  <option value="I" selected="{#if $user['estado']=='I' #}true{#else#}false{#/if#}">Inactivo</option>
+			  <option value="A" {#if $section['estado']=='A' #} selected="selected" {#/if#}">Activo</option>
+			  <option value="I" {#if $section['estado']=='I' #} selected="selected" {#/if#}>Inactivo</option>
 		</select>
 		<button type="button">Ediatr perfil</button>
 	</form>
-	<div id="message"></div>
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="js/functions.js"></script>
 	<script type="text/javascript" src="js/update-user.js"></script>	
