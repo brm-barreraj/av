@@ -33,12 +33,12 @@ class ContentSection{
     }
 
     //función para eliminar un registro
-    public static function delete(){
+    public static function delete($content,$section){
 
         try{
 
-            $section = ContentSectionModel::find(self::$request["id"]);
-            $section->delete();
+            $contentsection = ContentSectionModel::where('idContenido',$content)->where('idSeccion',$section);
+            $contentsection->delete();
 
             self::$response["boolean"]=true;
             self::$response["message"]='Se elimino';

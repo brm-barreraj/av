@@ -45,12 +45,25 @@ class Component{
 
     //función para eliminar un seccion
     public static function delete(){
+        foreach (self::$request['data'] as $key => $value) {
+            
+            $object=explode("&", $value);
+            $type=$object[0];
+            $component=$object[1];
+            $section=$object[3];
 
-    }
-
-    //función para editar un seccion
-    public static function order($id,$order){
-
+            switch ($type) {
+                case 'menu':
+                    MenuSection::delete($component,$section);
+                break;
+                case 'content':
+                    ContentSection::delete($component,$section);
+                break;
+                case 'module':
+                    ModuleSection::delete($component,$section);
+                break;
+            }
+        }
     }
 
 }

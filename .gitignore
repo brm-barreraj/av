@@ -2,3 +2,4 @@ models/
 core/vendor/
 core/cache/
 upload-sftp/
+test-upload-sftp/

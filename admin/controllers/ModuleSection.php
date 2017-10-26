@@ -34,11 +34,12 @@ class ModuleSection{
     }
 
     //función para eliminar un registro
-    public static function delete(){
+    public static function delete($module,$section){
 
         try{
-
-            $section = ModuleSectionModel::find(self::$request["id"]);
+            printVar($module,"module");
+            printVar($section,"section");
+            $section = ModuleSectionModel::where('idModulo',$module)->where('idSeccion',$section);
             $section->delete();
 
             self::$response["boolean"]=true;

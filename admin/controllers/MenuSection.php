@@ -33,12 +33,12 @@ class MenuSection{
     }
 
     //función para eliminar un registro
-    public static function delete(){
+    public static function delete($menu,$section){
 
         try{
 
-            $section = MenuSectionModel::find(self::$request["id"]);
-            $section->delete();
+            $menusection = MenuSectionModel::where('idMenu',$menu)->where('idSeccion',$section);
+            $menusection->delete();
 
             self::$response["boolean"]=true;
             self::$response["message"]='Se elimino';

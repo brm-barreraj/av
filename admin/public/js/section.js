@@ -45,8 +45,9 @@ jQuery(document).ready(function(){
           sendarray(result,"create-component");
         },
         onFilter: function (e) {
-          console.log(e.item);
-          //evt.item.parentNode.removeChild(evt.item);
+          var result = [$(e.item).data('key')];
+          sendarray(result,"delete-component");
+          e.item.parentNode.removeChild(e.item);
         },
         onSort: function (e) {
           var items = e.to.children;
