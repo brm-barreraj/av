@@ -13,7 +13,7 @@ import 'rxjs/add/operator/map';
 
 export class UserService{
 
-	public user:User;
+/*	public user:User;
 
 	constructor(private request: RequestService){}
 

@@ -13,8 +13,10 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { ProfilePage } from '../pages/profile/profile';
 import { LoginPage } from '../pages/login/login';
 import { VerNotificationPage } from '../pages/notification/verNotification';
+import { Utilities } from '../services/utilities';
 
-import { UserService } from '../services/mocks/user.service';
+
+//import { UserService } from '../services/mocks/user.service';
 import { RequestService } from '../services/request.service';
 //refactor por router
 
@@ -53,8 +55,9 @@ var links = [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    UserService,
-    RequestService
+    //UserService,
+    RequestService,
+    Utilities
   ]
 })
 export class AppModule {}

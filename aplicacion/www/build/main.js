@@ -34,15 +34,16 @@ webpackEmptyAsyncContext.id = 148;
 
 /***/ }),
 
-/***/ 193:
+/***/ 194:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_mocks_user_service__ = __webpack_require__(194);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_request_service__ = __webpack_require__(195);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tabs_tabs__ = __webpack_require__(195);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_request_service__ = __webpack_require__(200);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_utilities__ = __webpack_require__(201);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -55,38 +56,54 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+//import { UserService } from '../../services/mocks/user.service'; 
+
 
 var LoginPage = (function () {
-    function LoginPage(alertCtrl, loadingCtrl, navCtrl, userService, request) {
+    function LoginPage(alertCtrl, loadingCtrl, navCtrl, /*private userService:UserService,*/ request, utilities) {
         var _this = this;
         this.alertCtrl = alertCtrl;
         this.loadingCtrl = loadingCtrl;
         this.navCtrl = navCtrl;
-        this.userService = userService;
         this.request = request;
+        this.utilities = utilities;
         this.user = { email: '', password: '' };
+        this.d = {
+            token: "",
+            nombreCliente: "",
+            idUsuario: "",
+            perfil: ""
+        };
         this.login = function () {
             if (_this.user.email != '' && _this.user.password != '') {
                 var loading_1 = _this.loadingCtrl.create({
                     content: 'please wait....'
                 });
                 loading_1.present();
-                _this.userService.loginUser(_this.user.email, _this.user.password)
-                    .then(function (response) {
+                var json = 'usuario=' + _this.user.email + '&clave=' + _this.user.password + '&token=&consulta=LOGIN&isRedirect=NO&pageRedirect=&pageError=';
+                _this.request.post('https://www.avantel.co/funcionalidadmiavantel/login.du', json)
+                    .subscribe(function (result) {
+                    console.log(result, 'resultado request login');
                     loading_1.dismiss();
-                    console.log(response, 'Respeusta ');
-                    if (response != undefined) {
-                        console.log(response);
-                        //this.navCtrl.push(TabsPage);
+                    if (result.object.token != undefined) {
+                        _this.d.token = result.object.token.token;
+                        _this.d.nombreCliente = result.object.datosTelefono["0"].nombreCliente;
+                        _this.d.idUsuario = result.object.datosTelefono["0"].idUsuario;
+                        _this.d.perfil = result.object.datosTelefono["0"].roles.toString();
+                        console.log(_this.d, 'interface de inicio de sesion');
+                        _this.utilities.setSession(_this.d);
+                        _this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_2__tabs_tabs__["a" /* TabsPage */]);
                     }
                     else {
-                        // let alert = this.alertCtrl.create({
-                        // 	title:'Login',
-                        // 	subTitle:'Usuario y/o contraseña incorrecta',
-                        // 	buttons: ['Aceptar']
-                        // });
-                        //alert.present();
+                        var alert = _this.alertCtrl.create({
+                            title: 'Login',
+                            subTitle: 'Usuario y/o contraseña incorrecta',
+                            buttons: ['Aceptar']
+                        });
+                        alert.present();
                     }
+                }, function (error) {
+                    console.log(error, 'error login');
                 });
             }
             else {
@@ -98,35 +115,29 @@ var LoginPage = (function () {
                 alert.present();
             }
         };
+        this.signin = function () {
+            var json = 'token=34221068&consulta=getDepartamentos&isRedirect=NO&pageRedirect=&pageError=';
+            //let json='token=34221068&consulta=getDepartamentos&isRedirect=NO&pageRedirect=&pageError=&callback=getDepartamentos';
+            _this.request.postp('https://www.avantel.co/funcionalidadmiavantel/consultasgenerales.du', json)
+                .subscribe(function (result) {
+                console.log(result, 'resultado request');
+            }, function (error) {
+                console.log(error, 'error');
+            });
+        };
     }
     LoginPage.prototype.ngOnInit = function () {
-        var json = 'token=34221068&consulta=getDepartamentos&isRedirect=NO&pageRedirect=&pageError=&callback=getDepartamentos';
-        this.request.postp('https://www.avantel.co/funcionalidadmiavantel/consultasgenerales.du', json)
+        if (this.utilities.validateSession()) {
+            this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_2__tabs_tabs__["a" /* TabsPage */]);
+        }
+        var json = 'token=34221068&consulta=getDepartamentos&isRedirect=NO&pageRedirect=&pageError=';
+        //let json='token=34221068&consulta=getDepartamentos&isRedirect=NO&pageRedirect=&pageError=&callback=getDepartamentos';
+        this.request.post('https://www.avantel.co/funcionalidadmiavantel/consultasgenerales.du', json)
             .subscribe(function (result) {
             console.log(result, 'resultado request');
-            console.log(result.object.token, 'resultado token');
         }, function (error) {
             console.log(error, 'error');
         });
-        //user = this.find(email,password);
-        //console.log(this.user,'resultado antes de enviar');
-        //return Promise.resolve("this.user");
-        /*.then(response => {
-                console.log(response,'Respeusta ');
-                if( response != undefined){
-                    console.log(response);
-                    //this.navCtrl.push(TabsPage);
-                }else{
-                    // let alert = this.alertCtrl.create({
-                    // 	title:'Login',
-                    // 	subTitle:'Usuario y/o contraseña incorrecta',
-                    // 	buttons: ['Aceptar']
-                    // });
-                    //alert.present();
-                }
-
-            }
-        );*/
         console.log('arranco el inti');
         //si el usuairo esta logueado redireccionar a home
     };
@@ -134,9 +145,9 @@ var LoginPage = (function () {
 }());
 LoginPage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-login',template:/*ion-inline-start:"c:\xampp5\htdocs\av\aplicacion\src\pages\login\login.html"*/'<img src="https://www.rocketlanguages.com/images/common/generic-avatar-500x500.png">\n\n<h1>Login</h1>\n\n<ion-item>\n\n	<ion-label color="primary" stacked>E-mail</ion-label>\n\n	<ion-input [(ngModel)]="user.email" type="email" placeholder="Email"></ion-input>			\n\n</ion-item>	\n\n<ion-item>\n\n	<ion-label color="primary" stacked>Password</ion-label>\n\n	<ion-input [(ngModel)]="user.password" type="password" placeholder="Password"></ion-input>			\n\n</ion-item>	\n\n<button ion-button (tap)="login()" >Login</button>\n\n<button ion-button (tap)="signin()" >Sign In</button>'/*ion-inline-end:"c:\xampp5\htdocs\av\aplicacion\src\pages\login\login.html"*/
+        selector: 'page-login',template:/*ion-inline-start:"c:\xampp5\htdocs\av\aplicacion\src\pages\login\login.html"*/'<img src="http://tse1.mm.bing.net/th?id=OIP.4nSiPjYiNOlvj6KJiw2UTAEsEs&w=250&h=250&pid=1.1">\n\n<h1>Login</h1>\n\n<ion-item>\n\n	<ion-label color="primary" stacked>E-mail</ion-label>\n\n	<ion-input [(ngModel)]="user.email" type="email" placeholder="Email"></ion-input>			\n\n</ion-item>	\n\n<ion-item>\n\n	<ion-label color="primary" stacked>Password</ion-label>\n\n	<ion-input [(ngModel)]="user.password" type="password" placeholder="Password"></ion-input>			\n\n</ion-item>	\n\n<ion-item>\n\n	<ion-label color="primary" stacked>Usuario data: 58593</ion-label>		\n\n</ion-item>	\n\n<ion-item>\n\n	<ion-label color="primary" stacked>Password: 00000</ion-label>			\n\n</ion-item>	\n\n<button ion-button (tap)="login()" >Login</button>\n\n<button ion-button (tap)="signin()" >Sign In</button>'/*ion-inline-end:"c:\xampp5\htdocs\av\aplicacion\src\pages\login\login.html"*/
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* LoadingController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__services_mocks_user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_mocks_user_service__["a" /* UserService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_3__services_request_service__["a" /* RequestService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_request_service__["a" /* RequestService */]) === "function" && _e || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* LoadingController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__services_request_service__["a" /* RequestService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_request_service__["a" /* RequestService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_4__services_utilities__["a" /* Utilities */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_utilities__["a" /* Utilities */]) === "function" && _e || Object])
 ], LoginPage);
 
 var _a, _b, _c, _d, _e;
@@ -144,99 +155,15 @@ var _a, _b, _c, _d, _e;
 
 /***/ }),
 
-/***/ 194:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserService; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__request_service__ = __webpack_require__(195);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_catch__ = __webpack_require__(196);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_catch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_catch__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__ = __webpack_require__(197);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-//import { USERS } from '../mocks/users';
-//import { Http, Response, Headers, RequestOptions } from '@angular/http';
-
-
-
-var UserService = (function () {
-    function UserService(request) {
-        this.request = request;
-    }
-    UserService.prototype.testService = function () {
-        var json = 'token=34221068&consulta=getDepartamentos&isRedirect=NO&pageRedirect=&pageError=&callback=getDepartamentos';
-        this.request.post('https://www.avantel.co/funcionalidadmiavantel/consultasgenerales.du', json)
-            .subscribe(function (result) {
-            console.log(result, 'resultado request');
-            console.log(result.object.token, 'resultado token');
-        }, function (error) {
-            console.log(JSON.stringify(error), 'error');
-        });
-        //user = this.find(email,password);
-        //console.log(this.user,'resultado antes de enviar');
-        return Promise.resolve("this.user");
-    };
-    UserService.prototype.loginUser = function (email, password) {
-        var _this = this;
-        var json = 'usuario=' + email + '&clave=' + password + '&token=&consulta=LOGIN&isRedirect=NO&pageRedirect=&pageError=';
-        this.request.post('https://www.avantel.co/funcionalidadmiavantel/login.du', json)
-            .subscribe(function (result) {
-            console.log(result, 'resultado request');
-            console.log(result.object.token, 'resultado token');
-            if (result.object.token != undefined) {
-                console.log('entra respuesta positiva');
-                _this.user.nick_name = 'nick_name';
-                _this.user.full_name = 'full_name';
-                _this.user.email = email;
-                _this.user.password = password;
-                console.log(_this.user, 'usuario 2');
-            }
-            else {
-                _this.user = undefined;
-                console.log('no creo usuario porq token = undefined');
-            }
-            console.log(_this.user, 'resultado');
-        }, function (error) {
-            console.log(error, 'error');
-        });
-        //user = this.find(email,password);
-        console.log(this.user, 'resultado antes de enviar');
-        return Promise.resolve(this.user);
-    };
-    return UserService;
-}());
-UserService = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__request_service__["a" /* RequestService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__request_service__["a" /* RequestService */]) === "function" && _a || Object])
-], UserService);
-
-var _a;
-//# sourceMappingURL=user.service.js.map
-
-/***/ }),
-
 /***/ 195:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RequestService; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TabsPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(192);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_catch__ = __webpack_require__(196);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_catch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_catch__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__ = __webpack_require__(197);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__home_home__ = __webpack_require__(196);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__notification_notification__ = __webpack_require__(197);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__profile_profile__ = __webpack_require__(199);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -250,56 +177,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var RequestService = (function () {
-    function RequestService(http, _jsonp) {
-        this.http = http;
-        this._jsonp = _jsonp;
+var TabsPage = (function () {
+    function TabsPage() {
+        this.tab1Root = __WEBPACK_IMPORTED_MODULE_1__home_home__["a" /* HomePage */];
+        this.tab2Root = __WEBPACK_IMPORTED_MODULE_2__notification_notification__["a" /* NotificationPage */];
+        this.tab3Root = __WEBPACK_IMPORTED_MODULE_3__profile_profile__["a" /* ProfilePage */];
     }
-    RequestService.prototype.post = function (url, parameters) {
-        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Content-Type': 'application/x-www-form-urlencoded' });
-        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["f" /* RequestOptions */]({ headers: headers, method: "post" });
-        return this.http.post(url, parameters, options)
-            .map(this.extractData)
-            .catch(this.handleError);
-    };
-    RequestService.prototype.postp = function (url, parameters) {
-        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Content-Type': 'application/x-www-form-urlencoded' });
-        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["f" /* RequestOptions */]({ headers: headers, method: "post" });
-        return this._jsonp.get(url + '?' + parameters)
-            .map(this.extractData)
-            .catch(this.handleError);
-    };
-    RequestService.prototype.extractData = function (res) {
-        var body = res.json();
-        return body || {};
-    };
-    RequestService.prototype.handleError = function (error) {
-        // In a real world app, we might use a remote logging infrastructure
-        var errMsg;
-        if (error instanceof __WEBPACK_IMPORTED_MODULE_1__angular_http__["g" /* Response */]) {
-            var body = error.json() || '';
-            var err = body.error || JSON.stringify(body);
-            errMsg = error.status + " - " + (error.statusText || '') + " " + err;
-        }
-        else {
-            errMsg = error.message ? error.message : error.toString();
-        }
-        console.error(errMsg);
-        return Promise.reject(errMsg);
-    };
-    return RequestService;
+    return TabsPage;
 }());
-RequestService = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* Jsonp */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* Jsonp */]) === "function" && _b || Object])
-], RequestService);
+TabsPage = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({template:/*ion-inline-start:"c:\xampp5\htdocs\av\aplicacion\src\pages\tabs\tabs.html"*/'<ion-tabs>\n\n	<ion-tab [root]="tab1Root" tabTitle="Home" tabIcon="home" ></ion-tab>\n\n	<ion-tab [root]="tab2Root" tabTitle="Notification" tabIcon="information-circle" ></ion-tab>\n\n	<ion-tab [root]="tab3Root" tabTitle="Profile" tabIcon="contacts" ></ion-tab>\n\n</ion-tabs>'/*ion-inline-end:"c:\xampp5\htdocs\av\aplicacion\src\pages\tabs\tabs.html"*/
+    }),
+    __metadata("design:paramtypes", [])
+], TabsPage);
 
-var _a, _b;
-//# sourceMappingURL=request.service.js.map
+//# sourceMappingURL=tabs.js.map
 
 /***/ }),
 
-/***/ 198:
+/***/ 196:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -337,13 +233,13 @@ HomePage = __decorate([
 
 /***/ }),
 
-/***/ 199:
+/***/ 197:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NotificationPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__verNotification__ = __webpack_require__(200);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__verNotification__ = __webpack_require__(198);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(25);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -384,7 +280,7 @@ NotificationPage = __decorate([
 
 /***/ }),
 
-/***/ 200:
+/***/ 198:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -421,7 +317,7 @@ VerNotificationPage = __decorate([
 
 /***/ }),
 
-/***/ 201:
+/***/ 199:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -470,6 +366,145 @@ ProfilePage = __decorate([
 
 /***/ }),
 
+/***/ 200:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RequestService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(193);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_catch__ = __webpack_require__(269);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_catch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_catch__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__ = __webpack_require__(271);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_observable_throw__ = __webpack_require__(272);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_observable_throw___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_observable_throw__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_Observable__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_Observable__);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+var RequestService = (function () {
+    function RequestService(http, _jsonp) {
+        this.http = http;
+        this._jsonp = _jsonp;
+    }
+    RequestService.prototype.post = function (url, parameters) {
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Content-Type': 'application/x-www-form-urlencoded' });
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["f" /* RequestOptions */]({ headers: headers, method: "post" });
+        return this.http.post(url, parameters, options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    };
+    RequestService.prototype.postp = function (url, parameters) {
+        return this._jsonp.get(url + '?' + parameters)
+            .map(this.extractDataP)
+            .catch(this.handleErrorP);
+    };
+    RequestService.prototype.extractDataP = function (res) {
+        var body = res.json();
+        console.log('extracting data');
+        return body;
+    };
+    RequestService.prototype.handleErrorP = function (error) {
+        // In a real world app, we might use a remote logging infrastructure
+        // We'd also dig deeper into the error to get a better message
+        var errMsg = (error.message) ? error.message :
+            error.status ? error.status + " - " + error.statusText : 'Server error';
+        console.error('err' + errMsg); // log to console instead
+        return __WEBPACK_IMPORTED_MODULE_5_rxjs_Observable__["Observable"].throw(errMsg);
+    };
+    RequestService.prototype.extractData = function (res) {
+        var body = res.json();
+        return body || {};
+    };
+    RequestService.prototype.handleError = function (error) {
+        // In a real world app, we might use a remote logging infrastructure
+        var errMsg;
+        if (error instanceof __WEBPACK_IMPORTED_MODULE_1__angular_http__["g" /* Response */]) {
+            var body = error.json() || '';
+            var err = body.error || JSON.stringify(body);
+            errMsg = error.status + " - " + (error.statusText || '') + " " + err;
+        }
+        else {
+            errMsg = error.message ? error.message : error.toString();
+        }
+        console.error(errMsg);
+        return Promise.reject(errMsg);
+    };
+    return RequestService;
+}());
+RequestService = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */], __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* Jsonp */]])
+], RequestService);
+
+//# sourceMappingURL=request.service.js.map
+
+/***/ }),
+
+/***/ 201:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Utilities; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var Utilities = (function () {
+    function Utilities() {
+    }
+    Utilities.prototype.validateSession = function () {
+        if (this.getSession() == null || this.getSession().id == "") {
+            return false;
+        }
+        else {
+            return true;
+        }
+    };
+    Utilities.prototype.test = function () {
+        console.log('metodo de prueba clase Utilities');
+    };
+    Utilities.prototype.getSession = function () {
+        return JSON.parse(window.localStorage.getItem('!us3rS3ss10n#'));
+    };
+    Utilities.prototype.setSession = function (data) {
+        window.localStorage.setItem('!us3rS3ss10n#', JSON.stringify(data));
+    };
+    Utilities.prototype.deleteSession = function () {
+        window.localStorage.removeItem('!us3rS3ss10n#');
+    };
+    return Utilities;
+}());
+Utilities = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
+    __metadata("design:paramtypes", [])
+], Utilities);
+
+//# sourceMappingURL=utilities.js.map
+
+/***/ }),
+
 /***/ 202:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -493,17 +528,17 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(188);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_status_bar__ = __webpack_require__(191);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_http__ = __webpack_require__(192);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__app_component__ = __webpack_require__(269);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_home_home__ = __webpack_require__(198);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_notification_notification__ = __webpack_require__(199);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_tabs_tabs__ = __webpack_require__(271);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_profile_profile__ = __webpack_require__(201);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_login_login__ = __webpack_require__(193);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_notification_verNotification__ = __webpack_require__(200);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__services_mocks_user_service__ = __webpack_require__(194);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__services_request_service__ = __webpack_require__(195);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_status_bar__ = __webpack_require__(192);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_http__ = __webpack_require__(193);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__app_component__ = __webpack_require__(268);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_home_home__ = __webpack_require__(196);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_notification_notification__ = __webpack_require__(197);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_tabs_tabs__ = __webpack_require__(195);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_profile_profile__ = __webpack_require__(199);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_login_login__ = __webpack_require__(194);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_notification_verNotification__ = __webpack_require__(198);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__services_utilities__ = __webpack_require__(201);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__services_request_service__ = __webpack_require__(200);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -524,6 +559,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+//import { UserService } from '../services/mocks/user.service';
 
 //refactor por router
 var links = [
@@ -566,8 +602,9 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_4__ionic_native_status_bar__["a" /* StatusBar */],
             __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */],
             { provide: __WEBPACK_IMPORTED_MODULE_1__angular_core__["v" /* ErrorHandler */], useClass: __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["c" /* IonicErrorHandler */] },
-            __WEBPACK_IMPORTED_MODULE_13__services_mocks_user_service__["a" /* UserService */],
-            __WEBPACK_IMPORTED_MODULE_14__services_request_service__["a" /* RequestService */]
+            //UserService,
+            __WEBPACK_IMPORTED_MODULE_14__services_request_service__["a" /* RequestService */],
+            __WEBPACK_IMPORTED_MODULE_13__services_utilities__["a" /* Utilities */]
         ]
     })
 ], AppModule);
@@ -576,16 +613,16 @@ AppModule = __decorate([
 
 /***/ }),
 
-/***/ 269:
+/***/ 268:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MyApp; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(191);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(192);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(188);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_login_login__ = __webpack_require__(193);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_login_login__ = __webpack_require__(194);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -620,46 +657,6 @@ MyApp = __decorate([
 ], MyApp);
 
 //# sourceMappingURL=app.component.js.map
-
-/***/ }),
-
-/***/ 271:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TabsPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__home_home__ = __webpack_require__(198);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__notification_notification__ = __webpack_require__(199);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__profile_profile__ = __webpack_require__(201);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-var TabsPage = (function () {
-    function TabsPage() {
-        this.tab1Root = __WEBPACK_IMPORTED_MODULE_1__home_home__["a" /* HomePage */];
-        this.tab2Root = __WEBPACK_IMPORTED_MODULE_2__notification_notification__["a" /* NotificationPage */];
-        this.tab3Root = __WEBPACK_IMPORTED_MODULE_3__profile_profile__["a" /* ProfilePage */];
-    }
-    return TabsPage;
-}());
-TabsPage = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({template:/*ion-inline-start:"c:\xampp5\htdocs\av\aplicacion\src\pages\tabs\tabs.html"*/'<ion-tabs>\n\n	<ion-tab [root]="tab1Root" tabTitle="Home" tabIcon="home" ></ion-tab>\n\n	<ion-tab [root]="tab2Root" tabTitle="Notification" tabIcon="information-circle" ></ion-tab>\n\n	<ion-tab [root]="tab3Root" tabTitle="Profile" tabIcon="contacts" ></ion-tab>\n\n</ion-tabs>'/*ion-inline-end:"c:\xampp5\htdocs\av\aplicacion\src\pages\tabs\tabs.html"*/
-    }),
-    __metadata("design:paramtypes", [])
-], TabsPage);
-
-//# sourceMappingURL=tabs.js.map
 
 /***/ })
 
