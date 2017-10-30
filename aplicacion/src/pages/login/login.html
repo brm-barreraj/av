@@ -1,0 +1,12 @@
+<img src="https://www.rocketlanguages.com/images/common/generic-avatar-500x500.png">
+<h1>Login</h1>
+<ion-item>
+	<ion-label color="primary" stacked>E-mail</ion-label>
+	<ion-input [(ngModel)]="user.email" type="email" placeholder="Email"></ion-input>			
+</ion-item>	
+<ion-item>
+	<ion-label color="primary" stacked>Password</ion-label>
+	<ion-input [(ngModel)]="user.password" type="password" placeholder="Password"></ion-input>			
+</ion-item>	
+<button ion-button (tap)="login()" >Login</button>
+<button ion-button (tap)="signin()" >Sign In</button>

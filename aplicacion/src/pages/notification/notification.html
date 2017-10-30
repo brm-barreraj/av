@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+     	Notification
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+	<ion-list>
+		<ion-item *ngFor="let item of cositos">
+			<ion-thumbnail item-left>
+				<img src="{{item.img}}">
+			</ion-thumbnail>
+			<h5>{{item.action}}</h5>
+			<h2>{{item.nick_name}}</h2>
+			<p>{{item.text}}</p>
+			<button (tap)="verNotification(item)" ion-button clear item-rigth>View</button>
+		</ion-item>
+	</ion-list>
+
+</ion-content>
