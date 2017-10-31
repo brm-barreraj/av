@@ -30,6 +30,7 @@ export class LoginPage {
 	constructor(private alertCtrl:AlertController, public loadingCtrl:LoadingController, public navCtrl:NavController, /*private userService:UserService,*/ private request:RequestService, public utilities:Utilities){}
 
 	ngOnInit(){
+		
 		if(this.utilities.validateSession()){
 			this.navCtrl.push(TabsPage);
 		}
